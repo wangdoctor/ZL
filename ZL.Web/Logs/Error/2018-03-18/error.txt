@@ -1,0 +1,92 @@
+2018-03-18 08:26:31.3667 | Error | System.Net.WebException: 远程服务器返回错误: (403) 已禁止。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 34
+   在 ZL.Web.Controllers.HomeController.Login(UserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
+2018-03-18 08:34:56.3541 | Error | System.Net.WebException: 远程服务器返回错误: (403) 已禁止。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 34
+   在 ZL.Web.Controllers.HomeController.SendSmsCode(SmsCode smscode) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 94 
+2018-03-18 08:38:18.2114 | Error | System.Net.WebException: 远程服务器返回错误: (403) 已禁止。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 34
+   在 ZL.Web.Controllers.HomeController.SendSmsCode(SmsCode smscode) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 94 
+2018-03-18 08:42:59.4431 | Error | System.Net.WebException: 请求被中止: 请求已被取消。 ---> System.IO.IOException: 在写入所有字节之前不能关闭流。
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   在 System.Net.ConnectStream.System.Net.ICloseEx.CloseEx(CloseExState closeState)
+   在 System.Net.ConnectStream.Dispose(Boolean disposing)
+   在 System.IO.Stream.Close()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 31
+   在 ZL.Web.Controllers.HomeController.Login(UserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
+2018-03-18 08:43:09.2365 | Error | System.Net.WebException: 请求被中止: 请求已被取消。 ---> System.IO.IOException: 在写入所有字节之前不能关闭流。
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   在 System.Net.ConnectStream.System.Net.ICloseEx.CloseEx(CloseExState closeState)
+   在 System.Net.ConnectStream.Dispose(Boolean disposing)
+   在 System.IO.Stream.Close()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 31
+   在 ZL.Web.Controllers.HomeController.Login(UserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
+2018-03-18 08:43:10.6325 | Error | System.Net.WebException: 请求被中止: 请求已被取消。 ---> System.IO.IOException: 在写入所有字节之前不能关闭流。
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   在 System.Net.ConnectStream.System.Net.ICloseEx.CloseEx(CloseExState closeState)
+   在 System.Net.ConnectStream.Dispose(Boolean disposing)
+   在 System.IO.Stream.Close()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 31
+   在 ZL.Web.Controllers.HomeController.Login(UserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
+2018-03-18 08:43:11.3703 | Error | System.Net.WebException: 请求被中止: 请求已被取消。 ---> System.IO.IOException: 在写入所有字节之前不能关闭流。
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   在 System.Net.ConnectStream.System.Net.ICloseEx.CloseEx(CloseExState closeState)
+   在 System.Net.ConnectStream.Dispose(Boolean disposing)
+   在 System.IO.Stream.Close()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 31
+   在 ZL.Web.Controllers.HomeController.Login(UserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
+2018-03-18 08:43:11.6556 | Error | System.Net.WebException: 请求被中止: 请求已被取消。 ---> System.IO.IOException: 在写入所有字节之前不能关闭流。
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   在 System.Net.ConnectStream.System.Net.ICloseEx.CloseEx(CloseExState closeState)
+   在 System.Net.ConnectStream.Dispose(Boolean disposing)
+   在 System.IO.Stream.Close()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 31
+   在 ZL.Web.Controllers.HomeController.Login(UserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
+2018-03-18 08:43:11.8919 | Error | System.Net.WebException: 请求被中止: 请求已被取消。 ---> System.IO.IOException: 在写入所有字节之前不能关闭流。
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   在 System.Net.ConnectStream.System.Net.ICloseEx.CloseEx(CloseExState closeState)
+   在 System.Net.ConnectStream.Dispose(Boolean disposing)
+   在 System.IO.Stream.Close()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 31
+   在 ZL.Web.Controllers.HomeController.Login(UserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
+2018-03-18 08:43:12.2129 | Error | System.Net.WebException: 请求被中止: 请求已被取消。 ---> System.IO.IOException: 在写入所有字节之前不能关闭流。
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   在 System.Net.ConnectStream.System.Net.ICloseEx.CloseEx(CloseExState closeState)
+   在 System.Net.ConnectStream.Dispose(Boolean disposing)
+   在 System.IO.Stream.Close()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 31
+   在 ZL.Web.Controllers.HomeController.Login(UserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
+2018-03-18 08:43:41.8828 | Error | System.Net.WebException: 请求被中止: 请求已被取消。 ---> System.IO.IOException: 在写入所有字节之前不能关闭流。
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   在 System.Net.ConnectStream.System.Net.ICloseEx.CloseEx(CloseExState closeState)
+   在 System.Net.ConnectStream.Dispose(Boolean disposing)
+   在 System.IO.Stream.Close()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 31
+   在 ZL.Web.Controllers.HomeController.Login(UserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
+2018-03-18 08:53:39.1490 | Error | System.Net.WebException: 远程服务器返回错误: (403) 已禁止。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 34
+   在 ZL.Web.Controllers.HomeController.Login(LoginUserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
+2018-03-18 08:56:10.1718 | Error | System.Net.WebException: 远程服务器返回错误: (403) 已禁止。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 ZL.Infrastructure.ZLHttpRequet.Post(String url, String postdata) 位置 C:\Doctor\ZL\ZL.Infrastructure\Http\ZLHttpRequet.cs:行号 34
+   在 ZL.Web.Controllers.HomeController.Login(LoginUserInfo userinfo) 位置 C:\Doctor\ZL\ZL.Web\Controllers\HomeController.cs:行号 51 
