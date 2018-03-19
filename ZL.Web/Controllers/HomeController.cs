@@ -14,7 +14,7 @@ namespace ZL.Web.Controllers
             Log log = new Log();
             log.Info("老王");
             ZLHttpRequet zlhttp = new ZLHttpRequet();
-            string s= zlhttp.Post("http://www.jumax-sh.dev.sudaotech.com/api/mall/auth/login", "{'userName':'15821820391','password':'cjs6666667'}");
+            string s= zlhttp.Post("http://www.jumax-sh.dev.sudaotech.com/api/mall/auth/login", "{'userName':'15821820391','password':'cjs666666'}");
             return View();
         }
 
