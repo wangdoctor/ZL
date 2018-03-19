@@ -22,19 +22,23 @@ namespace ZL.Infrastructure
             request.Method = "POST";
 
             //post传参数  
-            byte[] bytes = Encoding.ASCII.GetBytes(postdata);
-            request.ContentType = "application/json";
+            byte[] bytes = Encoding.UTF8.GetBytes(postdata);
+            request.ContentType = "application/json;charset=UTF-8";
             request.ContentLength = postdata.Length;
             Stream sendStream = request.GetRequestStream();
             sendStream.Write(bytes, 0, bytes.Length);
             sendStream.Close();
-
-            //得到返回值  
-            WebResponse response7 = request.GetResponse();
-            string OrderQuantity = new StreamReader(response7.GetResponseStream(), Encoding.GetEncoding("gb2312")).ReadToEnd();
-
-            //转化成json对象处理  
-            //List<GetOrderQuantity> getOrderQuantity = sr.Deserialize<List<GetOrderQuantity>>(OrderQuantity);  
+            string OrderQuantity = string.Empty;
+            try
+            {
+                var rsp = request.GetResponse() as HttpWebResponse; // 最好能捕获异常302的HttpException,然后再处理一下。在Data中取键值 Location  
+                OrderQuantity = new StreamReader(rsp.GetResponseStream(), Encoding.GetEncoding("UTF-8")).ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                var rsp = ((System.Net.WebException)ex).Response as HttpWebResponse;
+                OrderQuantity = new StreamReader(rsp.GetResponseStream(), Encoding.GetEncoding("UTF-8")).ReadToEnd();
+            }
             return OrderQuantity;
         }
 
@@ -56,17 +60,18 @@ namespace ZL.Infrastructure
             Stream sendStream = request.GetRequestStream();
             sendStream.Write(bytes, 0, bytes.Length);
             sendStream.Close();
-
-            //得到返回值  
-            WebResponse response7 = request.GetResponse();
-            string OrderQuantity = new StreamReader(response7.GetResponseStream(), Encoding.GetEncoding("gb2312")).ReadToEnd();
-
-            //转化成json对象处理  
-            //List<GetOrderQuantity> getOrderQuantity = sr.Deserialize<List<GetOrderQuantity>>(OrderQuantity);  
+            string OrderQuantity = string.Empty;
+            try
+            {
+                var rsp = request.GetResponse() as HttpWebResponse; // 最好能捕获异常302的HttpException,然后再处理一下。在Data中取键值 Location  
+                OrderQuantity = new StreamReader(rsp.GetResponseStream(), Encoding.GetEncoding("UTF-8")).ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                var rsp = ((System.Net.WebException)ex).Response as HttpWebResponse;
+                OrderQuantity = new StreamReader(rsp.GetResponseStream(), Encoding.GetEncoding("UTF-8")).ReadToEnd();
+            }
             return OrderQuantity;
-
-
-
         }
     }
 }
