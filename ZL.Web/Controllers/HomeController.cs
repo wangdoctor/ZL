@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ZL.Infrastructure;
 using Newtonsoft.Json;
 using System.Net;
+using System.Data.SqlClient;
 
 namespace ZL.Web.Controllers
 {
@@ -16,18 +17,27 @@ namespace ZL.Web.Controllers
             ///路由好友openid
             var r_fopenid = RouteData.Values["openid"];
             ///授权获取的openid
-            string openid = Request.QueryString["openid"] + "";
-
-            ////读取分享者Openid
-            if (string.IsNullOrEmpty(openid)||string.IsNullOrEmpty(Session["openid"]+""))
+            string openid = Request.QueryString["openId"] + "";
+            string nickname = Request.QueryString["nickName"] + "";
+            string headimgurl = Request.QueryString["headImgUrl"] + "";
+            if (!string.IsNullOrEmpty(r_fopenid+"")&& !string.IsNullOrEmpty(Session["openid"] + ""))
             {
+                return View();
+            }
+            ////读取分享者Openid
+            if (!string.IsNullOrEmpty(openid) || !string.IsNullOrEmpty(Session["openid"] + ""))
+            {
+                Session["openid"] = openid;
                 Log l = new Log();
-                l.Error("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4d20a3efbcce8669&redirect_uri=http://wx.jumax-sh.dev.sudaotech.com/api/wechat/wechatToken/oauth2?url=" + Request.Url.Authority + Request.Url.AbsolutePath + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
-                Response.Redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4d20a3efbcce8669&redirect_uri=http://wx.jumax-sh.dev.sudaotech.com/api/wechat/wechatToken/oauth2?url=" + WebUtility.UrlDecode("http://" + Request.Url.Authority + Request.Url.AbsolutePath + "?ddd=23&wwe=443") + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
+                l.Info(openid+nickname+headimgurl);
+                AddUser(openid, nickname,headimgurl);
+
+                Response.Redirect(WebUtility.UrlDecode("http://" + Request.Url.Authority)+"/home/index/" + Session["openid"]);
             }
             else
             {
-                Session["openid"] = openid;
+                Response.Redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4d20a3efbcce8669&redirect_uri=http://wx.jumax-sh.dev.sudaotech.com/api/wechat/wechatToken/oauth2?url=" + WebUtility.UrlDecode("http://" + Request.Url.Authority + Request.Url.AbsolutePath) + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
+
             }
             return View();
         }
@@ -58,16 +68,7 @@ namespace ZL.Web.Controllers
             ZLHttpRequet zlHttp = new ZLHttpRequet();
             ResponseInfo res = new ResponseInfo();
             Log logger = new Log();
-            try
-            {
-                msg = zlHttp.Post("http://www.jumax-sh.dev.sudaotech.com/api/mall/auth/login", JsonConvert.SerializeObject(userinfo));
-
-            }
-            catch (Exception e)
-            {
-                logger.Error(e.ToString());
-                return Json(msg + "***http://www.jumax-sh.dev.sudaotech.com/api/mall/auth/login***" + JsonConvert.SerializeObject(userinfo));
-            }
+            msg = zlHttp.Post("http://www.jumax-sh.dev.sudaotech.com/api/mall/auth/login", JsonConvert.SerializeObject(userinfo));
             if (msg.IndexOf("error") > -1)
             {
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
@@ -75,7 +76,7 @@ namespace ZL.Web.Controllers
             }
             else
             {
-                // userinfo = JsonConvert.DeserializeObject<UserInfo>(msg);
+                var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
                 return Json(msg);
             }
 
@@ -122,6 +123,27 @@ namespace ZL.Web.Controllers
         public ActionResult CheckSmsCode()
         {
             return Json("");
+        }
+
+        public void AddUser(string openid,string nickname,string headimgurl)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid),
+                new SqlParameter("@nickname",nickname),
+                new SqlParameter("@qans",headimgurl),
+                };
+            string sql = "exec adduser @openid,@nickname,@qans";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                  db.GetSingle(sql,sqlParams);
+            }
+            catch (Exception)
+            {
+
+             
+            }
+          
         }
     }
     /// <summary>
@@ -234,12 +256,16 @@ namespace ZL.Web.Controllers
     class ResponseInfo
     {
         public string code { get; set; }
-        public string errors { get; set; }
+        public List<Err> errors { get; set; }
         public string message { get; set; }
         public string result { get; set; }
 
     }
-
+    class Err
+    {
+        public string message { get; set; }
+        public string reason { get; set; }
+    }
     class WechatInfo
     {
         /// <summary>

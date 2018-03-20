@@ -31,30 +31,13 @@
 </div>
 @section Scripts {
 <script>
-    //$.ajax({
-    //    url: "../Home/Login",
-    //    type: "post",
-    //     dataType: "json",
-    //    data: {
-    //        userName: '123',
-    //        password: 'cjs666666',
-    //    },
-    //    success: function (data) {
-    //        console.log(data);
-    //    },
-    //    error: function (e) {
-
-    //    }
-    //});
     $.ajax({
-        url: "../Home/SendSmsCode",
+        url: "../Home/Login",
         type: "post",
-        dataType: "json",
+         dataType: "json",
         data: {
-            cellphone: '13121758943',
-            rand: '123455',
-            captcha: 'fe0k',
-            validateType: 2,
+            userName: '123',
+            password: 'cjs666666',
         },
         success: function (data) {
             console.log(data);
@@ -63,5 +46,22 @@
 
         }
     });
+    //$.ajax({
+    //    url: "../Home/SendSmsCode",
+    //    type: "post",
+    //    dataType: "json",
+    //    data: {
+    //        cellphone: '13121758943',
+    //        rand: '123455',
+    //        captcha: 'fe0k',
+    //        validateType: 2,
+    //    },
+    //    success: function (data) {
+    //        console.log(data);
+    //    },
+    //    error: function (e) {
+
+    //    }
+    //});
 </script>
 }
