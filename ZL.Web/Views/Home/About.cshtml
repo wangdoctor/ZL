@@ -5,3 +5,35 @@
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p>
+@section Scripts {
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="http://share.forean.cn/Share.js"></script>
+    <script>
+        /*******************************************自定义分享********************************************************/
+        dz({
+            debug: true,
+            appid: 'wx3bdf51f7e21320d3',  ////公众号appid
+            oauthurl: escape(window.location.href),////当前页面完整url
+            timestamp: '1414587457',////生成签名的时间戳
+            nonceStr: 'wm3wzytpz0wzccnw',////生成签名的随机串
+            title: '这条微信很值钱', // 分享标题
+            desc: '不看错过一个亿哟', // 分享描述window.location='../index.html?ti='+q.ti+'&fens='+q.fens+'&gailv='+gailv;
+            link: 'http://judamax.forean.cn/index.html', // 分享链接
+            imgUrl: 'http://judamax.forean.cn/img/fx1.png', // 分享图标
+            success: function () {////分享成功后执行的方法
+                wx.scanQRCode({
+                    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                    scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                    success: function (res) {
+                        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                        alert(result);
+                    }
+                });
+            }
+        })
+            /*******************************************自定义分享********************************************************/
+
+    </script>
+    
+    }
+

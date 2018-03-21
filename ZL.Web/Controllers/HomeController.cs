@@ -14,6 +14,8 @@ namespace ZL.Web.Controllers
     {
         public ActionResult Index()
         {
+            Log l = new Log();
+            l.Info(Request.Url.ToString());
             ///路由好友openid
             var r_fopenid = RouteData.Values["openid"];
             ///授权获取的openid
@@ -27,9 +29,10 @@ namespace ZL.Web.Controllers
             ////读取分享者Openid
             if (!string.IsNullOrEmpty(openid) || !string.IsNullOrEmpty(Session["openid"] + ""))
             {
-                Session["openid"] = openid;
-                Log l = new Log();
-                l.Info(openid+nickname+headimgurl);
+                if (string.IsNullOrEmpty(Session["openid"] + ""))
+                {
+                    Session["openid"] = openid;
+                }
                 AddUser(openid, nickname,headimgurl);
 
                 Response.Redirect(WebUtility.UrlDecode("http://" + Request.Url.Authority)+"/home/index/" + Session["openid"]);
