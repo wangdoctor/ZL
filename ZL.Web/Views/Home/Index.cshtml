@@ -1,67 +1,362 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    Layout = null;
 }
-
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" id="viewportid" content="width=750,user-scalable=no" />
+    <title>钜MAX测试</title>
+    <link href="~/Content/index.css" rel="stylesheet" />
+</head>
+<body>
+    <section hidden>
+        <img src="~/img/alert_jb.png" />
+        <img src="~/img/alert_ord.png" />
+        <img src="~/img/alert_suc.png" />
+        <img src="~/img/bg.jpg" />
+        <img src="~/img/btn_fh.png" />
+        <img src="~/img/btn_res.png" />
+        <img src="~/img/btn_yzm.png" />
+        <img src="~/img/cj_bg.png" />
+        <img src="~/img/fm.jpg" />
+        <img src="~/img/load_m.png" />
+        <img src="~/img/page_cj_0.png" />
+        <img src="~/img/page_cj_1.1.png" />
+        <img src="~/img/page_cj_1.2.png" />
+        <img src="~/img/page_cj_1.3.png" />
+        <img src="~/img/page_cj_alert.png" />
+        <img src="~/img/page_cj_btn.png" />
+        <img src="~/img/page_cj_smbg.png" />
+        <img src="~/img/page_cj_yh.jpg" />
+        <img src="~/img/page_cj_zcyc.png" />
+        <img src="~/img/page_cj_zhfx.png" />
+        <img src="~/img/page_dl.png" />
+        <img src="~/img/page_dl_login.png" />
+        <img src="~/img/page_l_1.1.png" />
+        <img src="~/img/page_l_1.2.png" />
+        <img src="~/img/page_l_1.3.png" />
+        <img src="~/img/page_l_1.4.png" />
+        <img src="~/img/page_l_1.5.png" />
+        <img src="~/img/page_l_1.6.png" />
+        <img src="~/img/page_l_1.7.png" />
+        <img src="~/img/page_l_1.8.png" />
+        <img src="~/img/page_l_1.9.png" />
+        <img src="~/img/page_l_2.0.png" />
+        <img src="~/img/page_l_bg.jpg" />
+        <img src="~/img/page_l_bsbg.png" />
+        <img src="~/img/page_l_cz.png" />
+        <img src="~/img/page_l_fl.png" />
+        <img src="~/img/page_l_flt.png" />
+        <img src="~/img/page_l_head.png" />
+        <img src="~/img/page_l_jb.png" />
+        <img src="~/img/page_l_jdbg.png" />
+        <img src="~/img/page_l_phbg.png" />
+        <img src="~/img/page_l_share.png" />
+        <img src="~/img/page_l_wcj.png" />
+        <img src="~/img/page_l_xybs.png" />
+        <img src="~/img/page_l_yq.png" />
+        <img src="~/img/page_res_bg.png" />
+        <img src="~/img/page_res_fh.png" />
+        <img src="~/img/page_res_zc.png" />
+        <img src="~/img/page_zd_head.png" />
+        <img src="~/img/sc.png" />
+        <img src="~/img/skip.png" />
+    </section>
+    <!--Loading-->
+    <div id="load">
+        <div id="load_m">
+            <div id="load_jdt"></div>
+            <span id="load_n">0%</span>
+        </div>
+        <div id="sc"></div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <!--Loading-->
+    <!--视频页-->
+    <div id="fvideo">
+        <video src="http://video.forean.cn/sch5.mp4" poster="../../../img/fm.jpg" type="video/mp4" id="video" onload="true" webkit-playsinline playsinline x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+        <img src="~/img/skip.png"  id="tiaoguo"/>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <!--视频页-->
+    <!--抽奖页-->
+    <div id="page_cj" hidden>
+        <div id="page_cj_m">
+            <div id="page_cj_yh"></div>
+            <div id="page_cj_btn">
+                <div id="page_cj_alert"></div>
+            </div>
+            <div id="page_cj_jp">
+                <img id="page_cj_jp_img" src="~/img/page_cj_1.2.png" />
+                <span id="page_cj_sm">
+                    每人只有3次抽取返现初始倍数的机会<br />
+                    3次抽奖后，取最高倍数为最终抽奖结果
+                </span>
+                <span id="page_cj_cs">
+                    您还有0次机会
+                </span>
+                <div id="page_cj_btn1">
+
+                </div>
+                <div id="page_cj_btn2" hidden>
+
+                </div>
+            </div>
+            <span id="page_cj_cjsm_btn">
+                抽奖说明
+            </span>
+        </div>
     </div>
-</div>
-@section Scripts {
-<script>
-    $.ajax({
-        url: "../Home/Login",
-        type: "post",
-         dataType: "json",
-        data: {
-            userName: '123',
-            password: 'cjs666666',
-        },
-        success: function (data) {
-            console.log(data);
-        },
-        error: function (e) {
+    <!--抽奖页-->
+    <!--奖品规则页-->
+    <div id="page_gz" hidden>
+        <div id="page_gz_m">
+            <div id="page_gz_m_sm">
+                <div id="page_gz_mm">
+                    1. 活动时间：2018年3月28日-2018年4月1日<br /><br />
 
-        }
-    });
-    //$.ajax({
-    //    url: "../Home/SendSmsCode",
-    //    type: "post",
-    //    dataType: "json",
-    //    data: {
-    //        cellphone: '13121758943',
-    //        rand: '123455',
-    //        captcha: 'fe0k',
-    //        validateType: 2,
-    //    },
-    //    success: function (data) {
-    //        console.log(data);
-    //    },
-    //    error: function (e) {
+                    2. 活动期间每个账户只有3次抽取充返初始倍数的机会，3次抽取完成后，取最高充返初始倍数为最终抽奖结果。
+                    <br /><br />
+                    3. 初始倍数为1.1倍：<br />
+                    邀请达3人，累积至1.2倍；邀请达6人，累积至1.3倍；邀请达9人，累积至1.4倍；邀请达   12人，累积至1.5倍；邀请达15人，累积至1.6倍；邀请达18人，累积至1.7倍；邀请达21人，累积至1.8倍。
+                    <br />
+                    初始倍数为1.2倍：<br />
+                    邀请达3人，累积至1.3倍；邀请达6人，累积至1.4倍；邀请达9人，累积至1.5倍；邀请达   12人，累积至1.6倍；邀请达15人，累积至1.7倍；邀请达18人，累积至1.8倍；邀请达21人，累积至1.9倍。
+                    <br />
+                    初始倍数为1.3倍：<br />
+                    邀请达3人，累积至1.4倍；邀请达6人，累积至1.5倍；邀请达9人，累积至1.6倍；邀请达   12人，累积至1.7倍；邀请达15人，累积至1.8倍；邀请达18人，累积至1.9倍；邀请达21人，累积至2倍。
+                    <br /><br />
+                    4. 活动期间，每个账户只有3次充值返现的机会；如先使用初始倍数充值1次后，再邀好友也可累积倍数，但视为已使用充值返现机会一次。
+                    <br /><br />
+                    5.充值金额分三档：500、1000、3000。充值返现奖励额度有限，先到先得！<br /><br />
 
-    //    }
-    //});
-</script>
-}
+                    6.充返倍数仅限活动期间使用，不支持更换手机号/账户，请及时充值拿奖励返现。<br /><br />
+
+                    7.新注册用户将获得首次购物消费“满200减100”满减券，一口价商品不参与此活动。<br /><br />
+
+                    8. 在法律允许的范围内，本次活动最终解释权归钜MAX所有。
+
+                </div>
+                <div id="page_gz_btn"></div>
+            </div>
+          
+        </div>
+
+    </div>
+    <!--奖品规则页-->
+    <!--注册页-->
+    <div id="page_zc" hidden>
+        <img style="margin: 30px;" src="~/img/page_zd_head.png" />
+        <div id="page_zc_m">
+            <table>
+                <tr>
+                    <td valign="bottom" colspan="2">
+                        <input id="page_zc_phone" placeholder="请输入手机号码" />
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="bottom" colspan="2">
+                        <input type="password" id="page_zc_pwd" placeholder="请输入6-12位密码" />
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="bottom" style="width:374px;">
+                        <input id="page_zc_yzm" placeholder="请输入验证码" />
+                    </td>
+                    <td valign="bottom" style="text-align:left;">
+                        <img id="page_zc_imgyzm" src="http://www.jumax-sh.dev.sudaotech.com/api/mall/captcha/image?rand=1515324450107" />
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="bottom" style="width: 374px;">
+                        <input id="page_zc_syzm" placeholder="请输入短信验证码" />
+                    </td>
+                    <td valign="bottom" style="text-align:left;">
+                        <div id="page_zc_sms">
+                            获取验证码
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="page_zc_dl">
+            <span id="page_zc_dl_btn"> 直接登录></span>
+        </div>
+        <table id="page_zc_mag">
+            <tr>
+                <td>
+                    <img id="page_res_close" src="~/img/page_res_fh.png" />
+                </td>
+                <td>
+                    <img id="page_res_zc" src="~/img/page_res_zc.png" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!--注册页-->
+    <!--登录页-->
+    <div id="page_dl" hidden>
+        <img style="margin: 30px;" src="~/img/page_zd_head.png" />
+        <div id="page_dl_m">
+            <table>
+                <tr>
+                    <td valign="bottom">
+                        <input id="page_dl_phone" placeholder="请输入手机号码" />
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="bottom">
+                        <input type="password" id="page_dl_pwd" placeholder="请输入6-12位密码" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="page_dl_zc">
+            <span id="page_dl_zc_btn">注册账号></span>
+        </div>
+        <table id="page_zc_mag">
+            <tr>
+                <td>
+                    <img id="page_dl_close" src="~/img/page_res_fh.png" />
+                </td>
+                <td>
+                    <img id="page_dl_login" src="~/img/page_dl_login.png" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!--登录页-->
+    <!--提示页-->
+    <div id="page_alert" hidden>
+        <div id="page_alert_mc"></div>
+        <div id="page_alert_m"></div>
+    </div>
+    <!--提示页-->
+    <!--邀请好友页-->
+    <div id="page_l" hidden>
+        <div id="page_l_h1">
+            <span id="page_l_3">根据三次抽奖，取最高值</span>
+            <img id="page_l_bs" src="~/img/page_l_1.2.png" />
+            <span id="page_l_zg">
+                邀请好友注册，即活倍数加成<br />
+                最高倍数为2倍！
+            </span>
+        </div>
+        <span class="page_l_cjsm">抽奖说明</span>
+        <div id="page_l_yq">
+
+        </div>
+        <div class="page_l_phb">
+            <div class="page_l_jdt">
+                <table class="page_l_jdt_bs">
+                    <tr>
+                        <td class="light">1.3倍</td>
+                        <td>1.4</td>
+                        <td>1.5</td>
+                        <td>1.6</td>
+                        <td>1.7</td>
+                        <td>1.8</td>
+                        <td>1.9</td>
+                        <td class="light">2.0倍</td>
+                    </tr>
+                </table>
+                <div class="page_l_jdt_bg">
+                    <div class="page_l_jdt_ov"></div>
+                </div>
+                <table class="page_l_jdt_rs">
+                    <tr>
+                        <td class="light">0人</td>
+                        <td>3</td>
+                        <td>5</td>
+                        <td>8</td>
+                        <td>10</td>
+                        <td>15</td>
+                        <td>20</td>
+                        <td class="light">25人</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page_l_flist">
+                <span class="ts">还没有好友注册，快邀请好友加倍吧</span>
+            </div>
+        </div>
+        <div id="page_l_cz">
+
+        </div>
+        <div id="page_l_czx"></div>
+    </div>
+    <!--邀请好友页-->
+    <!--好友页面-->
+    <div id="page_f" hidden>
+        <div id="page_f_head">
+            <div id="page_f_head_img">
+                <img id="page_f_head_imgs" src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKibaiagKmQTjiavjUNg5BQqqHT7YnKXZ9XqNAM6XCHmAQicshkTHib2bwlvMfsufv8gxHzGz7ThQErQfA/132" />
+
+            </div>
+            <span id="page_f_head_name">Yanling</span>
+            <img id="page_f_bs" src="~/img/page_l_1.2.png" />
+        </div>
+        <div class="page_l_phb">
+            <div class="page_l_jdt">
+                <table class="page_l_jdt_bs">
+                    <tr>
+                        <td class="light">1.3倍</td>
+                        <td>1.4</td>
+                        <td>1.5</td>
+                        <td>1.6</td>
+                        <td>1.7</td>
+                        <td>1.8</td>
+                        <td>1.9</td>
+                        <td class="light">2.0倍</td>
+                    </tr>
+                </table>
+                <div class="page_l_jdt_bg">
+                    <div class="page_l_jdt_ov"></div>
+                </div>
+                <table class="page_l_jdt_rs">
+                    <tr>
+                        <td class="light">0人</td>
+                        <td>3</td>
+                        <td>5</td>
+                        <td>8</td>
+                        <td>10</td>
+                        <td>15</td>
+                        <td>20</td>
+                        <td class="light">25人</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page_l_flist">
+                <span class="ts">还没有好友注册，快邀请好友加倍吧</span>
+            </div>
+        </div>
+        <span class="page_l_cjsm">抽奖说明</span>
+        <div id="page_f_btn">
+
+        </div>
+        <div id="page_f_btn2">
+
+        </div>
+        <span id="page_f_sm">
+            新注册用户将获得“满200减100”满减券<br />
+            （活动期间可用）
+        </span>
+    </div>
+    <!--好友页面-->
+    <!--邀请好友页面-->
+    <div id="page_share">
+        <div id="page_share_m"></div>
+        <img style="position: absolute;left: 0;" src="~/img/page_l_share.png" />
+    </div>
+    <!--邀请好友页面-->
+    <div hidden>
+        <span id="cs">@ViewBag.cs</span>
+        <span id="openid">@ViewBag.openid</span>
+        <span id="fopenid">@ViewBag.fopenid</span>
+        <span id="userid"></span>
+    </div>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="http://share.forean.cn/Share.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/imagesloaded.min.js"></script>
+    <script src="~/Scripts/index.js"></script>
+</body>
+</html>

@@ -210,10 +210,62 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\index.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\alert_jb.png" />
+    <Content Include="img\alert_ord.png" />
+    <Content Include="img\alert_suc.png" />
+    <Content Include="img\bg.jpg" />
+    <Content Include="img\btn_fh.png" />
+    <Content Include="img\btn_res.png" />
+    <Content Include="img\btn_yzm.png" />
+    <Content Include="img\cj_bg.png" />
+    <Content Include="img\fm.jpg" />
+    <Content Include="img\load_m.png" />
+    <Content Include="img\page_cj_0.png" />
+    <Content Include="img\page_cj_1.1.png" />
+    <Content Include="img\page_cj_1.2.png" />
+    <Content Include="img\page_cj_1.3.png" />
+    <Content Include="img\page_cj_alert.png" />
+    <Content Include="img\page_cj_btn.png" />
+    <Content Include="img\page_cj_smbg.png" />
+    <Content Include="img\page_cj_yh.jpg" />
+    <Content Include="img\page_cj_zcyc.png" />
+    <Content Include="img\page_cj_zhfx.png" />
+    <Content Include="img\page_dl.png" />
+    <Content Include="img\page_dl_login.png" />
+    <Content Include="img\page_l_1.1.png" />
+    <Content Include="img\page_l_1.2.png" />
+    <Content Include="img\page_l_1.3.png" />
+    <Content Include="img\page_l_1.4.png" />
+    <Content Include="img\page_l_1.5.png" />
+    <Content Include="img\page_l_1.6.png" />
+    <Content Include="img\page_l_1.7.png" />
+    <Content Include="img\page_l_1.8.png" />
+    <Content Include="img\page_l_1.9.png" />
+    <Content Include="img\page_l_2.0.png" />
+    <Content Include="img\page_l_bg.jpg" />
+    <Content Include="img\page_l_bsbg.png" />
+    <Content Include="img\page_l_cz.png" />
+    <Content Include="img\page_l_fl.png" />
+    <Content Include="img\page_l_flt.png" />
+    <Content Include="img\page_l_head.png" />
+    <Content Include="img\page_l_jb.png" />
+    <Content Include="img\page_l_jdbg.png" />
+    <Content Include="img\page_l_phbg.png" />
+    <Content Include="img\page_l_share.png" />
+    <Content Include="img\page_l_wcj.png" />
+    <Content Include="img\page_l_xybs.png" />
+    <Content Include="img\page_l_yq.png" />
+    <Content Include="img\page_res_bg.png" />
+    <Content Include="img\page_res_fh.png" />
+    <Content Include="img\page_res_zc.png" />
+    <Content Include="img\page_zd_head.png" />
+    <Content Include="img\sc.png" />
+    <Content Include="img\skip.png" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -222,7 +274,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="NLog.config" />
+    <None Include="Properties\PublishProfiles\123.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\imagesloaded.min.js" />
+    <Content Include="Scripts\index.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -234,7 +289,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

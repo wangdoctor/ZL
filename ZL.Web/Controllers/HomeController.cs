@@ -7,6 +7,8 @@ using ZL.Infrastructure;
 using Newtonsoft.Json;
 using System.Net;
 using System.Data.SqlClient;
+using System.Configuration;
+using System.Data;
 
 namespace ZL.Web.Controllers
 {
@@ -14,16 +16,22 @@ namespace ZL.Web.Controllers
     {
         public ActionResult Index()
         {
-            Log l = new Log();
-            l.Info(Request.Url.ToString());
-            ///路由好友openid
-            var r_fopenid = RouteData.Values["openid"];
+            //Log l = new Log();
+            //l.Info(Request.Url.ToString());
+            //路由好友openid
+            var r_fopenid = RouteData.Values["fopenid"];
+            //路由自己openid
+            var r_openid = RouteData.Values["openid"];
             ///授权获取的openid
             string openid = Request.QueryString["openId"] + "";
             string nickname = Request.QueryString["nickName"] + "";
             string headimgurl = Request.QueryString["headImgUrl"] + "";
-            if (!string.IsNullOrEmpty(r_fopenid+"")&& !string.IsNullOrEmpty(Session["openid"] + ""))
+
+            if (!string.IsNullOrEmpty(r_openid + "") && !string.IsNullOrEmpty(r_fopenid + "") && !string.IsNullOrEmpty(Session["openid"] + ""))
             {
+                ViewBag.cs = CJ(Session["openid"] + "");
+                ViewBag.openid = Session["openid"];
+                ViewBag.fopenid = r_fopenid;
                 return View();
             }
             ////读取分享者Openid
@@ -33,9 +41,16 @@ namespace ZL.Web.Controllers
                 {
                     Session["openid"] = openid;
                 }
-                AddUser(openid, nickname,headimgurl);
-
-                Response.Redirect(WebUtility.UrlDecode("http://" + Request.Url.Authority)+"/home/index/" + Session["openid"]);
+                else if (!string.IsNullOrEmpty(openid))
+                {
+                    Session["openid"] = openid;
+                }
+                AddUser(openid, nickname, headimgurl);
+                if (string.IsNullOrEmpty(r_fopenid + ""))
+                {
+                    r_fopenid = Session["openid"];
+                }
+                Response.Redirect(WebUtility.UrlDecode("http://" + Request.Url.Authority) + "/home/index/" + Session["openid"] + "/" + r_fopenid);
             }
             else
             {
@@ -47,8 +62,8 @@ namespace ZL.Web.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
 
+            Bssub(new Bs() { userId = "78869", activityId = "1", lastRate = "1.6" });
             return View();
         }
 
@@ -65,7 +80,7 @@ namespace ZL.Web.Controllers
         /// <param name="userinfo"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Login(LoginUserInfo userinfo)
+        public ActionResult Login(LoginUserInfo userinfo, string openid)
         {
             string msg = string.Empty;
             ZLHttpRequet zlHttp = new ZLHttpRequet();
@@ -75,12 +90,13 @@ namespace ZL.Web.Controllers
             if (msg.IndexOf("error") > -1)
             {
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
-                return Json(msg);
+                return Json(res.message);
             }
             else
             {
                 var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
-                return Json(msg);
+                Bind(openid, dd.userId);
+                return Json("true");
             }
 
         }
@@ -90,9 +106,45 @@ namespace ZL.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Regist()
+        public ActionResult Regist(RegistUserInfo reg,string fopenid,string openid)
         {
-            return Json("");
+            string msg = string.Empty;
+            ZLHttpRequet zlHttp = new ZLHttpRequet();
+            ResponseInfo res = new ResponseInfo();
+            Log logger = new Log();
+            msg = zlHttp.Post(ConfigurationManager.AppSettings["baseurl"] + "/auth/register", JsonConvert.SerializeObject(reg));
+            if (msg.IndexOf("error") > -1)
+            {
+                res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
+                var uid = GerBs(fopenid).Split(',');
+                if (uid.Length>1)
+                {
+                    Bssub(new Bs()
+                    {
+                        activityId = "1",
+                        lastRate = uid[0],
+                        userId = uid[1]
+                    });
+                }
+                return Json(res.message);
+
+            }
+            else
+            {
+                var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
+                BindUser(openid,fopenid);
+                var uid = GerBs(fopenid).Split(',');
+                if (uid.Length > 1)
+                {
+                    Bssub(new Bs()
+                    {
+                        activityId = "1",
+                        lastRate = uid[0],
+                        userId = uid[1]
+                    });
+                }
+                return Json("true");
+            }
         }
         /// <summary>
         /// 发送短信验证码
@@ -105,18 +157,17 @@ namespace ZL.Web.Controllers
             ZLHttpRequet zlHttp = new ZLHttpRequet();
             ResponseInfo res = new ResponseInfo();
             Log logger = new Log();
-            try
+            msg = zlHttp.Post(ConfigurationManager.AppSettings["baseurl"] + "/sms/vcode", JsonConvert.SerializeObject(smscode));
+            if (msg.IndexOf("error") > -1)
             {
-                msg = zlHttp.Post("http://www.jumax-sh.dev.sudaotech.com/api/mall/sms/vcode", JsonConvert.SerializeObject(smscode));
-
+                res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
+                return Json(res.message);
             }
-            catch (Exception e)
+            else
             {
-                logger.Error(e.ToString());
-                return Json(msg + "***http://www.jumax-sh.dev.sudaotech.com/api/mall/sms/vcode***" + JsonConvert.SerializeObject(smscode));
+                var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
+                return Json("true");
             }
-
-            return Json(msg);
         }
         /// <summary>
         /// 验证短信验证码
@@ -127,26 +178,342 @@ namespace ZL.Web.Controllers
         {
             return Json("");
         }
-
-        public void AddUser(string openid,string nickname,string headimgurl)
+        /// <summary>
+        /// 新增用户
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <param name="nickname"></param>
+        /// <param name="headimgurl"></param>
+        public void AddUser(string openid, string nickname, string headimgurl)
         {
             SqlParameter[] sqlParams = new SqlParameter[] {
                 new SqlParameter("@openid", openid),
                 new SqlParameter("@nickname",nickname),
                 new SqlParameter("@qans",headimgurl),
                 };
-            string sql = "exec adduser @openid,@nickname,@qans";
+            string sql = @"exec adduser @openid,@nickname,@qans";
             DbHelperSQL db = new DbHelperSQL();
             try
             {
-                  db.GetSingle(sql,sqlParams);
+                db.GetSingle(sql, sqlParams);
             }
             catch (Exception)
             {
 
-             
+
             }
-          
+
+        }
+        public void BindUser(string openid, string fopenid)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid),
+                new SqlParameter("@fopenid",fopenid),
+                };
+            string sql = @"exec binduser @openid,@fopenid";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                db.GetSingle(sql, sqlParams);
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+        }
+
+
+        public ActionResult GetUserinfoF(string openid)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid),
+                };
+            string sql = @"select top 1 * from J_UserInfo where Openid =@openid";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                DataSet dt = db.Query(sql, sqlParams);
+                if (dt.Tables[0].Rows.Count > 0)
+                {
+                    return Json(new WechatInfo()
+                    {
+                        NickName = dt.Tables[0].Rows[0]["Nickname"] + "",
+                        HeadUrl = dt.Tables[0].Rows[0]["Headimgurl"] + "",
+                        BaseMultiple = dt.Tables[0].Rows[0]["BaseMultiple"] + "",
+
+                    });
+                }
+                else
+                {
+                    return Json(null);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(null);
+
+            }
+
+        }
+
+        public ActionResult GetOwnUserid(string openid)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid),
+                };
+            string sql = " select JUserid from J_UserInfo  where Openid= @openid";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                string bs = db.GetSingle(sql, sqlParams)+"";
+                return Json(bs);
+            }
+            catch (Exception)
+            {
+                return Json("0");
+
+            }
+        }
+        /// <summary>
+        /// 获取抽奖次数
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <returns></returns>
+        public string CJ(string openid)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid),
+                };
+            string sql = " select blanace from [J_UserInfo] where openid= @openid";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                return db.GetSingle(sql, sqlParams).ToString();
+            }
+            catch (Exception)
+            {
+                return "0";
+
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bs"></param>
+        public void Bssub(Bs bs)
+        {
+            string msg = string.Empty;
+            ZLHttpRequet zlHttp = new ZLHttpRequet();
+            ResponseInfo res = new ResponseInfo();
+            Log logger = new Log();
+            msg = zlHttp.Post(ConfigurationManager.AppSettings["baseurl"] + "/rcActivity/rate", JsonConvert.SerializeObject(bs));
+            if (msg.IndexOf("error") > -1)
+            {
+                res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
+                //eturn Json(res.message);
+            }
+            else
+            {
+                var dd = JsonConvert.DeserializeObject<Bsr>(msg);
+                //return Json("true");
+            }
+        }
+
+        public void Bind(string openid, string userid)
+        {
+
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid),
+                new SqlParameter("@userid", userid),
+                };
+            string sql = "  update [DB_Jumax201803].[dbo].[J_UserInfo] set JUserid =@userid where Openid = @openid";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                db.GetSingle(sql, sqlParams);
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        public void UpInfo(string openid, string mul)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid),
+                new SqlParameter("@mul", mul),
+                };
+            string sql = "update[DB_Jumax201803].[dbo].[J_UserInfo] set BaseMultiple =@mul where Openid = @openid";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                db.GetSingle(sql, sqlParams);
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+        public ActionResult Max(string openid)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid),
+                };
+            string sql = " select MAX(Prize) prize from j_prize where openid= @openid";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                string bs = db.GetSingle(sql, sqlParams).ToString();
+                UpInfo(openid,bs);
+                var uid = GerBs(openid).Split(',');
+                if (uid.Length > 1)
+                {
+                    Bssub(new Bs()
+                    {
+                        activityId = "1",
+                        lastRate = uid[0],
+                        userId = uid[1]
+                    });
+                }
+                return Json(bs);
+            }
+            catch (Exception)
+            {
+                return Json("0");
+
+            }
+        }
+        /// <summary>
+        /// 抽奖
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <returns></returns>
+        public ActionResult Lottery(string openid)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid),
+                };
+            string sql = "   exec [GetLottery] @openid";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                return Json(db.GetSingle(sql, sqlParams).ToString());
+            }
+            catch (Exception)
+            {
+                return Json("-2,-2");
+
+            }
+        }
+        /// <summary>
+        /// 获取图片验证码
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Imgy()
+        {
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+
+            string uuid = ConfigurationManager.AppSettings["baseurl"] + "/captcha/image?rand=" + Convert.ToInt64(ts.TotalMilliseconds).ToString();
+            return Json(uuid);
+        }
+
+        public ActionResult Flist(string openid)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid),
+                };
+            string sql = @" select s.nickname,s.headimgurl from J_InvitationInfo i
+                            inner join[J_UserInfo] s on i.FOpenid = s.Openid
+                            where i.Openid = @openid  and s.nickname<>''";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                List<WechatInfo> list = new List<WechatInfo>();
+                DataSet dt = db.Query(sql, sqlParams);
+                for (int i = 0; i < dt.Tables[0].Rows.Count; i++)
+                {
+                    list.Add(new WechatInfo()
+                    {
+                        NickName = dt.Tables[0].Rows[i]["nickname"] + "",
+                        HeadUrl = dt.Tables[0].Rows[i]["headimgurl"] + "",
+                    });
+                }
+                return Json(list);
+            }
+            catch (Exception)
+            {
+                return Json(null);
+
+            }
+
+        }
+
+
+        public string GerBs(string openid)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", openid)
+                };
+            string sql = "exec [Getbs] @openid";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                DataSet dt= db.Query(sql, sqlParams);
+                string cs = dt.Tables[0].Rows[0][0]+"";
+                string count = dt.Tables[0].Rows[0][1]+"";
+                string userid = dt.Tables[0].Rows[0][2]+"";
+                if (!string.IsNullOrEmpty(cs)&& !string.IsNullOrEmpty(userid))
+                {
+                    if (int.Parse(count) >= 25)
+                    {
+                        return (float.Parse(cs) + 0.7).ToString()+","+ userid;
+                    }
+                    else if (int.Parse(count) >= 20)
+                    {
+                        return (float.Parse(cs) + 0.6).ToString() + "," + userid;
+                    }
+                    else if (int.Parse(count) >= 15)
+                    {
+                        return (float.Parse(cs) + 0.5).ToString() + "," + userid;
+                    }
+                    else if (int.Parse(count) >= 10)
+                    {
+                        return (float.Parse(cs) + 0.4).ToString() + "," + userid;
+                    }
+                    else if (int.Parse(count) >= 8)
+                    {
+                        return (float.Parse(cs) + 0.3).ToString() + "," + userid;
+                    }
+                    else if (int.Parse(count) >= 5)
+                    {
+                        return (float.Parse(cs) + 0.2).ToString() + "," + userid;
+                    }
+                    else if (int.Parse(count) >= 3)
+                    {
+                        return (float.Parse(cs) + 0.1).ToString() + "," + userid;
+                    }
+                    else
+                    {
+                        return (float.Parse(cs)).ToString() + "," + userid;
+                    }
+                }
+                else
+                {
+                    return "0";
+                }
+
+            }
+            catch (Exception)
+            {
+
+                return "0";
+            }
+            
         }
     }
     /// <summary>
@@ -256,7 +623,7 @@ namespace ZL.Web.Controllers
     /// <summary>
     /// 接口返回信息
     /// </summary>
-    class ResponseInfo
+    public class ResponseInfo
     {
         public string code { get; set; }
         public List<Err> errors { get; set; }
@@ -264,24 +631,54 @@ namespace ZL.Web.Controllers
         public string result { get; set; }
 
     }
-    class Err
+    /// <summary>
+    /// 提交倍数
+    /// </summary>
+    public class Bs
+    {
+        public string activityId { get; set; }
+        public string lastRate { get; set; }
+        public string userId { get; set; }
+    }
+    /// <summary>
+    /// 倍数返回值
+    /// </summary>
+    public class Bsr
+    {
+        public string activityId { get; set; }
+        public string activityRateId { get; set; }
+        public string createTime { get; set; }
+        public string createUserId { get; set; }
+        public string createUserName { get; set; }
+        public string deleted { get; set; }
+        public string displayOrder { get; set; }
+        public string lastRate { get; set; }
+        public string lastUpdate { get; set; }
+        public string updateTime { get; set; }
+        public string updateUserId { get; set; }
+        public string updateUserName { get; set; }
+        public string userId { get; set; }
+        public string version { get; set; }
+    }
+    public class Err
     {
         public string message { get; set; }
         public string reason { get; set; }
     }
-    class WechatInfo
+    public class WechatInfo
     {
         /// <summary>
         /// Openid
         /// </summary>
-        private string Openid { get; set; }
+        public string Openid { get; set; }
         /// <summary>
         /// 昵称
         /// </summary>
-        private string NickName { get; set; }
+        public string NickName { get; set; }
         /// <summary>
         /// 头像Url
         /// </summary>
-        private string HeadUrl { get; set; }
+        public string HeadUrl { get; set; }
+        public string BaseMultiple { get; set; }
     }
 }

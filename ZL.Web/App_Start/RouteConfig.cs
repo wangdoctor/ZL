@@ -15,8 +15,8 @@ namespace ZL.Web
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{openid}",
-                defaults: new { controller = "Home", action = "Index", openid = UrlParameter.Optional }
+                url: "{controller}/{action}/{openid}/{fopenid}",
+                defaults: new { controller = "Home", action = "Index", openid = UrlParameter.Optional, fopenid = UrlParameter.Optional }
             );
         }
     }
