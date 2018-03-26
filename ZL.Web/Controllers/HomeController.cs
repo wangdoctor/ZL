@@ -86,14 +86,17 @@ namespace ZL.Web.Controllers
             ZLHttpRequet zlHttp = new ZLHttpRequet();
             ResponseInfo res = new ResponseInfo();
             Log logger = new Log();
+            logger.Info("登录提交：" + JsonConvert.SerializeObject(userinfo) + "&&" + openid);
             msg = zlHttp.Post("http://www.jumax-sh.dev.sudaotech.com/api/mall/auth/login", JsonConvert.SerializeObject(userinfo));
             if (msg.IndexOf("error") > -1)
             {
+                logger.Info("登录返回：" + openid + msg);
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
                 return Json(res.message);
             }
             else
             {
+                logger.Info("登录返回：" + openid + msg);
                 var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
                 Bind(openid, dd.userId);
                 return Json("true");
@@ -106,40 +109,49 @@ namespace ZL.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Regist(RegistUserInfo reg,string fopenid,string openid)
+        public ActionResult Regist(RegistUserInfo reg, string fopenid, string openid)
         {
             string msg = string.Empty;
             ZLHttpRequet zlHttp = new ZLHttpRequet();
             ResponseInfo res = new ResponseInfo();
             Log logger = new Log();
+            logger.Info("注册提交：" + JsonConvert.SerializeObject(reg) + "&&openid=" + openid + "&&fopenid" + fopenid);
             msg = zlHttp.Post(ConfigurationManager.AppSettings["baseurl"] + "/auth/register", JsonConvert.SerializeObject(reg));
             if (msg.IndexOf("error") > -1)
             {
+                logger.Info("注册返回：" + openid + msg);
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
-                var uid = GerBs(fopenid).Split(',');
-                if (uid.Length>1)
-                {
-                    Bssub(new Bs()
-                    {
-                        activityId = "1",
-                        lastRate = uid[0],
-                        userId = uid[1]
-                    });
-                }
+                //var uid = GerBs(fopenid).Split(',');
+                
+
+                //if (uid.Length > 1)
+                //{
+                //    Bssub(new Bs()
+                //    {
+                //        activityId = "1",
+                //        lastRate = decimal.Round(decimal.Parse(uid[0]), 1)+"",
+                //        userId = uid[1]
+                //    });
+                //}
                 return Json(res.message);
 
             }
             else
             {
+                logger.Info("注册返回：" + openid + msg);
                 var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
-                BindUser(openid,fopenid);
+                Bind(openid, dd.storeUserId);
+                if (openid!=fopenid)
+                {
+                    BindUser(openid, fopenid);
+                }
                 var uid = GerBs(fopenid).Split(',');
                 if (uid.Length > 1)
                 {
                     Bssub(new Bs()
                     {
                         activityId = "1",
-                        lastRate = uid[0],
+                        lastRate = decimal.Round(decimal.Parse(uid[0]), 1) + "",
                         userId = uid[1]
                     });
                 }
@@ -157,14 +169,17 @@ namespace ZL.Web.Controllers
             ZLHttpRequet zlHttp = new ZLHttpRequet();
             ResponseInfo res = new ResponseInfo();
             Log logger = new Log();
+            logger.Info("短信验证码提交：" + JsonConvert.SerializeObject(smscode));
             msg = zlHttp.Post(ConfigurationManager.AppSettings["baseurl"] + "/sms/vcode", JsonConvert.SerializeObject(smscode));
             if (msg.IndexOf("error") > -1)
             {
+                logger.Info(msg);
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
                 return Json(res.message);
             }
             else
             {
+                logger.Info(msg);
                 var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
                 return Json("true");
             }
@@ -267,7 +282,7 @@ namespace ZL.Web.Controllers
             DbHelperSQL db = new DbHelperSQL();
             try
             {
-                string bs = db.GetSingle(sql, sqlParams)+"";
+                string bs = db.GetSingle(sql, sqlParams) + "";
                 return Json(bs);
             }
             catch (Exception)
@@ -299,7 +314,7 @@ namespace ZL.Web.Controllers
             }
         }
         /// <summary>
-        /// 
+        /// 提交中奖倍数
         /// </summary>
         /// <param name="bs"></param>
         public void Bssub(Bs bs)
@@ -308,16 +323,17 @@ namespace ZL.Web.Controllers
             ZLHttpRequet zlHttp = new ZLHttpRequet();
             ResponseInfo res = new ResponseInfo();
             Log logger = new Log();
+            logger.Info("提交中奖倍数:" + JsonConvert.SerializeObject(bs));
             msg = zlHttp.Post(ConfigurationManager.AppSettings["baseurl"] + "/rcActivity/rate", JsonConvert.SerializeObject(bs));
             if (msg.IndexOf("error") > -1)
             {
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
-                //eturn Json(res.message);
+                logger.Info("返回中奖倍数:" + msg);
             }
             else
             {
                 var dd = JsonConvert.DeserializeObject<Bsr>(msg);
-                //return Json("true");
+                logger.Info("返回中奖倍数:" + msg);
             }
         }
 
@@ -369,7 +385,7 @@ namespace ZL.Web.Controllers
             try
             {
                 string bs = db.GetSingle(sql, sqlParams).ToString();
-                UpInfo(openid,bs);
+                UpInfo(openid, bs);
                 var uid = GerBs(openid).Split(',');
                 if (uid.Length > 1)
                 {
@@ -428,8 +444,8 @@ namespace ZL.Web.Controllers
                 new SqlParameter("@openid", openid),
                 };
             string sql = @" select s.nickname,s.headimgurl from J_InvitationInfo i
-                            inner join[J_UserInfo] s on i.FOpenid = s.Openid
-                            where i.Openid = @openid  and s.nickname<>''";
+                            inner join[J_UserInfo] s on i.Openid = s.Openid
+                            where i.fOpenid = @openid  and s.nickname<>''";
             DbHelperSQL db = new DbHelperSQL();
             try
             {
@@ -463,17 +479,17 @@ namespace ZL.Web.Controllers
             DbHelperSQL db = new DbHelperSQL();
             try
             {
-                DataSet dt= db.Query(sql, sqlParams);
-                string cs = dt.Tables[0].Rows[0][0]+"";
-                string count = dt.Tables[0].Rows[0][1]+"";
-                string userid = dt.Tables[0].Rows[0][2]+"";
-                if (!string.IsNullOrEmpty(cs)&& !string.IsNullOrEmpty(userid))
+                DataSet dt = db.Query(sql, sqlParams);
+                string cs = dt.Tables[0].Rows[0][0] + "";
+                string count = dt.Tables[0].Rows[0][1] + "";
+                string userid = dt.Tables[0].Rows[0][2] + "";
+                if (!string.IsNullOrEmpty(cs) && !string.IsNullOrEmpty(userid))
                 {
-                    if (int.Parse(count) >= 25)
+                    if (int.Parse(count) >= 21)
                     {
-                        return (float.Parse(cs) + 0.7).ToString()+","+ userid;
+                        return (float.Parse(cs) + 0.7).ToString() + "," + userid;
                     }
-                    else if (int.Parse(count) >= 20)
+                    else if (int.Parse(count) >= 18)
                     {
                         return (float.Parse(cs) + 0.6).ToString() + "," + userid;
                     }
@@ -481,15 +497,15 @@ namespace ZL.Web.Controllers
                     {
                         return (float.Parse(cs) + 0.5).ToString() + "," + userid;
                     }
-                    else if (int.Parse(count) >= 10)
+                    else if (int.Parse(count) >= 12)
                     {
                         return (float.Parse(cs) + 0.4).ToString() + "," + userid;
                     }
-                    else if (int.Parse(count) >= 8)
+                    else if (int.Parse(count) >= 9)
                     {
                         return (float.Parse(cs) + 0.3).ToString() + "," + userid;
                     }
-                    else if (int.Parse(count) >= 5)
+                    else if (int.Parse(count) >= 6)
                     {
                         return (float.Parse(cs) + 0.2).ToString() + "," + userid;
                     }
@@ -513,7 +529,7 @@ namespace ZL.Web.Controllers
 
                 return "0";
             }
-            
+
         }
     }
     /// <summary>
@@ -541,6 +557,7 @@ namespace ZL.Web.Controllers
         /// 用户ID
         /// </summary>
         public string userId { get; set; }
+        public string storeUserId { get; set; }
     }
 
     /// <summary>

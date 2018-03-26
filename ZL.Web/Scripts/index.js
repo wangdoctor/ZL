@@ -1,4 +1,15 @@
 ﻿$(function () {
+
+    /*********************************************全局变量********************************************/
+    App = {
+        rand: 0,
+        countdown: 90,
+        bs: 0,
+        page: 0,
+        ct: 0,
+        bhy: false
+    }
+    /*********************************************全局变量********************************************/
     var completed = 0, total = $('section img').length;
     ////图片资源初始化
     function imginit() {
@@ -6,7 +17,7 @@
         $('section').imagesLoaded().done(function (instance) {
             if ($('#fopenid').html() === $('#openid').html()) {
                 if ($('#cs').html() * 1 > 0) {
-                    if ($('#cs').html() * 1<3) {
+                    if ($('#cs').html() * 1 < 3) {
                         $('#page_cj_btn').hide();
                         $('#page_cj_jp').show();
                         $('#page_cj_cs').html("您还有" + ($('#cs').html() * 1) + "次机会");
@@ -20,6 +31,7 @@
                 }
                 else {
                     Max();
+                    App.ct = 1;
                 }
             }
             else {
@@ -34,14 +46,7 @@
         });
     }
     imginit();
-    /*********************************************全局变量********************************************/
-    App = {
-        rand: 0,
-        countdown: 90,
-        bs: 0,
-        page: 0
-    }
-    /*********************************************全局变量********************************************/
+
     /*********************************************内部函数********************************************/
 
     function settime(val) {
@@ -83,12 +88,12 @@
             //成功返回之后调用的函数
             success: function (data) {
                 if (data != null) {
-                    if (data.length >= 25) {
+                    if (data.length >= 21) {
                         $('.page_l_jdt_ov').css('width', '505px');
                         $('#page_l_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.7).toFixed(1) + '.png');
 
                     }
-                    else if (data.length >= 20) {
+                    else if (data.length >= 18) {
                         $('.page_l_jdt_ov').css('width', '433px');
                         $('#page_l_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.6).toFixed(1) + '.png');
 
@@ -98,17 +103,17 @@
                         $('#page_l_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.5).toFixed(1) + '.png');
 
                     }
-                    else if (data.length >= 10) {
+                    else if (data.length >= 12) {
                         $('.page_l_jdt_ov').css('width', '288px');
                         $('#page_l_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.4).toFixed(1) + '.png');
 
                     }
-                    else if (data.length >= 8) {
+                    else if (data.length >= 9) {
                         $('.page_l_jdt_ov').css('width', '215px');
                         $('#page_l_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.3).toFixed(1) + '.png');
 
                     }
-                    else if (data.length >= 5) {
+                    else if (data.length >= 6) {
                         $('.page_l_jdt_ov').css('width', '142px');
                         $('#page_l_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.2).toFixed(1) + '.png');
 
@@ -140,7 +145,6 @@
                         'background-size': 'cover'
                     });
                     $('#load_m').hide();
-                    $('#page_l').show();
                     if (data.length > 0) {
                         $("#page_l_czx").show();
                         $("#page_l_cz").hide();
@@ -253,12 +257,12 @@
             //成功返回之后调用的函数
             success: function (data) {
                 if (data != null) {
-                    if (data.length >= 25) {
+                    if (data.length >= 21) {
                         $('.page_l_jdt_ov').css('width', '505px');
                         $('#page_f_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.7).toFixed(1) + '.png');
 
                     }
-                    else if (data.length >= 20) {
+                    else if (data.length >= 18) {
                         $('.page_l_jdt_ov').css('width', '433px');
                         $('#page_f_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.6).toFixed(1) + '.png');
 
@@ -268,17 +272,17 @@
                         $('#page_f_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.5).toFixed(1) + '.png');
 
                     }
-                    else if (data.length >= 10) {
+                    else if (data.length >= 12) {
                         $('.page_l_jdt_ov').css('width', '288px');
                         $('#page_f_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.4).toFixed(1) + '.png');
 
                     }
-                    else if (data.length >= 8) {
+                    else if (data.length >= 9) {
                         $('.page_l_jdt_ov').css('width', '215px');
                         $('#page_f_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.3).toFixed(1) + '.png');
 
                     }
-                    else if (data.length >= 5) {
+                    else if (data.length >= 6) {
                         $('.page_l_jdt_ov').css('width', '142px');
                         $('#page_f_bs').attr('src', '../../../img/page_l_' + (App.bs * 1 + 0.2).toFixed(1) + '.png');
 
@@ -347,12 +351,22 @@
     });
     $('#tiaoguo').click(function () {
         document.getElementById('video').pause();
-        $('#page_cj').show();
+        if (App.ct == 1) {
+            $('#page_l').show();
+        } else {
+            $('#page_cj').show();
+        }
         $('#fvideo').remove();
     });
     $('#video').on('ended', function () {
         $('#fvideo').remove();
-        $('#page_cj').show();
+
+        if (App.ct == 1) {
+            $('#page_l').show();
+        }
+        else {
+            $('#page_cj').show();
+        }
     })
     $('#page_share').click(function () {
         $('#page_share').hide();
@@ -424,7 +438,7 @@
         setTimeout(function () {
             $('#page_cj_btn').trigger('click');
         }, 1000);
-        
+
     });
     //最后返现倍数
     $('#page_cj_btn2').click(function () {
@@ -436,7 +450,7 @@
     $('#page_l_cz').click(function () {
         var uid = $('#userid').html().trim();
         if (uid != '') {
-            window.location.href = "http://wx.jumaxonline.judamax.com/";
+            window.location.href = "http://wx.jumax-sh.dev.sudaotech.com/#/profile/wallet/unused";
             return;
         }
         if (cjkg) {
@@ -538,7 +552,17 @@
                 //成功返回之后调用的函数
                 success: function (data) {
                     if (data == "true") {
-                        window.location.href = "http://wx.jumaxonline.judamax.com/";
+                        if (app.bhy) {
+                            $('#page_alert_m').css({
+                                'background': 'url(../../../img/alert_jb.png) top center',
+                                'background-size': '100% 100%'
+                            });
+                            $('#page_alert').show();
+                        }
+                        else {
+                            window.location.href = "http://wx.jumax-sh.dev.sudaotech.com/#/profile/wallet/unused";
+                        }
+
                     }
                     else {
                         alert(data);
@@ -595,7 +619,7 @@
                 //成功返回之后调用的函数
                 success: function (data) {
                     if (data == "true") {
-                        window.location.href = "http://wx.jumaxonline.judamax.com/";
+                        window.location.href = "http://wx.jumax-sh.dev.sudaotech.com/#/profile/wallet/unused";
                     }
                     else {
                         alert(data);
@@ -652,6 +676,7 @@
                 success: function (data) {
                     $('#page_f').hide();
                     App.page = 1;
+                    App.bhy = true;
                     $('#page_zc').show();
                     $('#page_zc_imgyzm').attr('src', data);
                     App.rand = data.split('rand=')[1];
@@ -670,7 +695,11 @@
         $('#page_alert').hide();
         $('#page_f_btn2').show();
         $('#page_f_btn').hide();
+        $('#page_zc').hide();
+        if (App.bhy) {
+            $('#page_f').show();
 
+        }
     });
     $('#page_f_btn2').click(function () {
         window.location.href = "http://jumaxnew.forean.cn/home/index";

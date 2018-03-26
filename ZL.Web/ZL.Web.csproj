@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -225,7 +226,7 @@
     <Content Include="img\cj_bg.png" />
     <Content Include="img\fm.jpg" />
     <Content Include="img\load_m.png" />
-    <Content Include="img\page_cj_0.png" />
+    <Content Include="img\page_cj_0.0.png" />
     <Content Include="img\page_cj_1.1.png" />
     <Content Include="img\page_cj_1.2.png" />
     <Content Include="img\page_cj_1.3.png" />

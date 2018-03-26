@@ -173,10 +173,10 @@ body {
 
 #page_cj_btn2 {
     position: relative;
-    left: 82px;
+    left: 91px;
     bottom: 238px;
-    width: 347px;
-    height: 81px;
+    width: 337px;
+    height: 71px;
     background: url(../../../img/page_cj_zhfx.png) top center;
     background-size: cover;
 }
@@ -803,6 +803,7 @@ body {
     top: 0;
     right: 0;
     display: none;
+    z-index: 40;
 }
 
 #page_share_m {
