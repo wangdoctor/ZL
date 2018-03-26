@@ -16,8 +16,8 @@ namespace ZL.Web.Controllers
     {
         public ActionResult Index()
         {
-            //Log l = new Log();
-            //l.Info(Request.Url.ToString());
+            Log l = new Log();
+            l.Info(Request.Url.ToString());
             //路由好友openid
             var r_fopenid = RouteData.Values["fopenid"];
             //路由自己openid
@@ -55,6 +55,7 @@ namespace ZL.Web.Controllers
             }
             else
             {
+                l.Info("去授权"+ "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4d20a3efbcce8669&redirect_uri=http://wx.jumax-sh.dev.sudaotech.com/api/wechat/wechatToken/oauth2?url=" + WebUtility.UrlDecode("http://" + Request.Url.Authority + Request.Url.AbsolutePath) + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
                 Response.Redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4d20a3efbcce8669&redirect_uri=http://wx.jumax-sh.dev.sudaotech.com/api/wechat/wechatToken/oauth2?url=" + WebUtility.UrlDecode("http://" + Request.Url.Authority + Request.Url.AbsolutePath) + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
 
             }
@@ -122,7 +123,7 @@ namespace ZL.Web.Controllers
                 logger.Info("注册返回：" + openid + msg);
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
                 //var uid = GerBs(fopenid).Split(',');
-                
+
 
                 //if (uid.Length > 1)
                 //{
@@ -141,7 +142,7 @@ namespace ZL.Web.Controllers
                 logger.Info("注册返回：" + openid + msg);
                 var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
                 Bind(openid, dd.storeUserId);
-                if (openid!=fopenid)
+                if (openid != fopenid)
                 {
                     BindUser(openid, fopenid);
                 }
