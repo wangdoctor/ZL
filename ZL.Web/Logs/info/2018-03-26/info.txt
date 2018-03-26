@@ -37,3 +37,7 @@
 2018-03-26 15:29:55.0069 | Info  | 注册返回：oIxj5wjfAiSy8vVicAXjJhVzmGk4{"code":403501,"errors":[{"message":"请输入手机号码","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"请输入手机号码"} 
 2018-03-26 15:31:24.7899 | Info  | 注册提交：{"cellphone":null,"password":null,"smscode":null,"registSource":"wechat183"}&&openid=oIxj5wjfAiSy8vVicAXjJhVzmGk4&&fopenidoIxj5wlzyGY9exkk8wVp35G_OUwQ 
 2018-03-26 15:31:25.2739 | Info  | 注册返回：oIxj5wjfAiSy8vVicAXjJhVzmGk4{"code":403501,"errors":[{"message":"请输入手机号码","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"请输入手机号码"} 
+2018-03-26 17:41:29.0236 | Info  | 登录提交：{"userName":"13121758943","password":"123456"}&&oIxj5wjfAiSy8vVicAXjJhVzmGk4 
+2018-03-26 17:41:29.4076 | Info  | 登录返回：oIxj5wjfAiSy8vVicAXjJhVzmGk4{"cellphone":"13121758943","userName":"13121758943","userId":"137587","token":"kAhIqOxcGunP4aU5Uveh%2BOrKc%2BLEiZbSmU4gxHu9ac8uRikh0Z36M0rtfJSw4VOZtEcOwiNoj4rNhYJqjJ7kSM5iEsmqao610Y0R5K%2BYS4E422yWpKIMVX6YOU7KZYWziNdW0uM%2BGreg8f48oCoL8g%3D%3D"} 
+2018-03-26 17:43:42.9916 | Info  | 登录提交：{"userName":"13121758943","password":"123456"}&&oIxj5wjfAiSy8vVicAXjJhVzmGk4 
+2018-03-26 17:43:43.2596 | Info  | 登录返回：oIxj5wjfAiSy8vVicAXjJhVzmGk4{"cellphone":"13121758943","userName":"13121758943","userId":"137587","token":"2%2FuYLSEbNubwv%2FskER7409Di0mTtHmBHCusCsIM7R1CcdyDLAWswnumArOr%2FgxYYtEcOwiNoj4rNhYJqjJ7kSDK8nk2Iw1DcoUdRj8W0%2FsuRe2l6TuT1L6s5AMgsB012JhpWmAmZyIF8BoEa4rlXMg%3D%3D"} 

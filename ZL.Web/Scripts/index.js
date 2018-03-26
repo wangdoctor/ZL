@@ -618,8 +618,20 @@
                 datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
                 //成功返回之后调用的函数
                 success: function (data) {
+
                     if (data == "true") {
-                        window.location.href = "http://wx.jumax-sh.dev.sudaotech.com/#/profile/wallet/unused";
+                        if (App.bhy) {
+                            $('#page_alert_m').css({
+                                'background': 'url(../../../img/alert_ord.png) top center',
+                                'background-size': '100% 100%'
+                            });
+                            $('#page_alert').show();
+                            $('#page_dl').hide();
+                            return;
+                        } else {
+                            window.location.href = "http://wx.jumax-sh.dev.sudaotech.com/#/profile/wallet/unused";
+                        }
+
                     }
                     else {
                         alert(data);
@@ -680,7 +692,7 @@
                     $('#page_zc').show();
                     $('#page_zc_imgyzm').attr('src', data);
                     App.rand = data.split('rand=')[1];
-                    $('#page_zc_dl').hide();
+                    //$('#page_zc_dl').hide();
                     $('#page_zc_mag').css("margin-top", "60px");
                     cjkg = true;
                 },
