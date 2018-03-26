@@ -450,7 +450,7 @@
     $('#page_l_cz').click(function () {
         var uid = $('#userid').html().trim();
         if (uid != '') {
-            window.location.href = "http://wx.jumax-sh.dev.sudaotech.com/#/profile/wallet/unused";
+            window.location.href = $('#url').html();
             return;
         }
         if (cjkg) {
@@ -560,7 +560,7 @@
                             $('#page_alert').show();
                         }
                         else {
-                            window.location.href = "http://wx.jumax-sh.dev.sudaotech.com/#/profile/wallet/unused";
+                            window.location.href = $('#url').html();
                         }
 
                     }
@@ -629,7 +629,7 @@
                             $('#page_dl').hide();
                             return;
                         } else {
-                            window.location.href = "http://wx.jumax-sh.dev.sudaotech.com/#/profile/wallet/unused";
+                            window.location.href = $('#url').html();
                         }
 
                     }

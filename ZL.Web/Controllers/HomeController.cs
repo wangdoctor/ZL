@@ -32,6 +32,7 @@ namespace ZL.Web.Controllers
                 ViewBag.cs = CJ(Session["openid"] + "");
                 ViewBag.openid = Session["openid"];
                 ViewBag.fopenid = r_fopenid;
+                ViewBag.url = ConfigurationManager.AppSettings["url"];
                 return View();
             }
             ////读取分享者Openid
@@ -63,7 +64,6 @@ namespace ZL.Web.Controllers
         public ActionResult About()
         {
 
-            Bssub(new Bs() { userId = "78869", activityId = "1", lastRate = "1.6" });
             return View();
         }
 
@@ -90,13 +90,13 @@ namespace ZL.Web.Controllers
             msg = zlHttp.Post("http://www.jumax-sh.dev.sudaotech.com/api/mall/auth/login", JsonConvert.SerializeObject(userinfo));
             if (msg.IndexOf("error") > -1)
             {
-                logger.Info("登录返回：" + openid + msg);
+                logger.Info("登录失败返回：" + openid + msg);
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
                 return Json(res.message);
             }
             else
             {
-                logger.Info("登录返回：" + openid + msg);
+                logger.Info("登录成功返回：" + openid + msg);
                 var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
                 Bind(openid, dd.userId);
                 return Json("true");
