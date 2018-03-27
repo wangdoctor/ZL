@@ -441,7 +441,7 @@
                         dom += '<img src="' + data[i].HeadUrl + '" />';
                         dom += '</div>';
                         dom += '<div class="page_l_flist_op_c">' + ((data[i].NickName).length > 3 && (data[i].NickName).substring(0, 3) + "..." || data[i].NickName)+ '</div>';
-                        dom += '<div class="page_l_flist_op_r">已为您提高倍数</div>';
+                        dom += '<div class="page_l_flist_op_r">已为TA提高倍数</div>';
                         dom += '</div>';
                     }
                     if (dom != '') {
