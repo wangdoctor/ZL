@@ -31,11 +31,15 @@ namespace ZL.Web.Controllers
             var r_openid = RouteData.Values["openid"];
             ///授权获取的openid
             string openid = Request.QueryString["openId"] + "";
+            string look = Request.QueryString["look"] + "";
             string nickname = Request.QueryString["nickName"] + "";
             string headimgurl = Request.QueryString["headImgUrl"] + "";
             string randomKey = Request.QueryString["randomKey"] + "";
             string sign = Request.QueryString["sign"] + "";
-
+            if (!string.IsNullOrEmpty(look))
+            {
+                Bz(look);
+            }
             if (!string.IsNullOrEmpty(r_openid + "") && !string.IsNullOrEmpty(r_fopenid + "") && !string.IsNullOrEmpty(Session["openid"] + ""))
             {
                 ViewBag.cs = CJ(Session["openid"] + "");
@@ -142,18 +146,6 @@ namespace ZL.Web.Controllers
             {
                 logger.Info("注册返回：" + openid + msg);
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
-                //var uid = GerBs(fopenid).Split(',');
-
-
-                //if (uid.Length > 1)
-                //{
-                //    Bssub(new Bs()
-                //    {
-                //        activityId = "1",
-                //        lastRate = decimal.Round(decimal.Parse(uid[0]), 1)+"",
-                //        userId = uid[1]
-                //    });
-                //}
                 return Json(res.message);
 
             }
@@ -161,7 +153,7 @@ namespace ZL.Web.Controllers
             {
                 logger.Info("注册返回：" + openid + msg);
                 var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
-                Bind(openid, dd.storeUserId);
+                Bind(openid, dd.storeUserId,1);
                 if (openid != fopenid)
                 {
                     BindUser(openid, fopenid);
@@ -358,14 +350,15 @@ namespace ZL.Web.Controllers
             }
         }
 
-        public void Bind(string openid, string userid)
+        public void Bind(string openid, string userid,int flag=0)
         {
 
             SqlParameter[] sqlParams = new SqlParameter[] {
                 new SqlParameter("@openid", openid),
                 new SqlParameter("@userid", userid),
+                new SqlParameter("@flag", flag),
                 };
-            string sql = "  update [DB_Jumax201803].[dbo].[J_UserInfo] set JUserid =@userid where Openid = @openid";
+            string sql = "  update [DB_Jumax201803].[dbo].[J_UserInfo] set JUserid =@userid,ZFlag=@flag where Openid = @openid";
             DbHelperSQL db = new DbHelperSQL();
             try
             {
@@ -558,7 +551,26 @@ namespace ZL.Web.Controllers
 
                 return "0";
             }
+            
+        }
 
+        public void Bz(string v)
+        {
+
+            SqlParameter[] sqlParams = new SqlParameter[] {
+                new SqlParameter("@openid", v),
+                };
+            string sql = " insert into [DB_Jumax201803].[dbo].[J_Bz](bozhu)values(@openid)";
+            DbHelperSQL db = new DbHelperSQL();
+            try
+            {
+                db.GetSingle(sql, sqlParams);
+            }
+            catch (Exception)
+            {
+
+
+            }
         }
     }
     /// <summary>
