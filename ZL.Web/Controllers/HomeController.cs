@@ -9,6 +9,8 @@ using System.Net;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ZL.Web.Controllers
 {
@@ -16,8 +18,13 @@ namespace ZL.Web.Controllers
     {
         public ActionResult Index()
         {
-            Log l = new Log();
-            l.Info(Request.Url.ToString());
+
+            if (ConfigurationManager.AppSettings["rd"] != "0")
+            {
+                Response.Redirect(WebUtility.UrlDecode("http://" + Request.Url.Authority) + "/home/about");
+            }
+            //Log l = new Log();
+            //l.Info(Request.Url.ToString());
             //路由好友openid
             var r_fopenid = RouteData.Values["fopenid"];
             //路由自己openid
@@ -26,6 +33,8 @@ namespace ZL.Web.Controllers
             string openid = Request.QueryString["openId"] + "";
             string nickname = Request.QueryString["nickName"] + "";
             string headimgurl = Request.QueryString["headImgUrl"] + "";
+            string randomKey = Request.QueryString["randomKey"] + "";
+            string sign = Request.QueryString["sign"] + "";
 
             if (!string.IsNullOrEmpty(r_openid + "") && !string.IsNullOrEmpty(r_fopenid + "") && !string.IsNullOrEmpty(Session["openid"] + ""))
             {
@@ -36,7 +45,8 @@ namespace ZL.Web.Controllers
                 return View();
             }
             ////读取分享者Openid
-            if (!string.IsNullOrEmpty(openid) || !string.IsNullOrEmpty(Session["openid"] + ""))
+            if ((!string.IsNullOrEmpty(openid) && sign == GetMD5(openid + randomKey)) || !string.IsNullOrEmpty(Session["openid"] + ""))
+            //if (!string.IsNullOrEmpty(openid)|| !string.IsNullOrEmpty(Session["openid"] + ""))
             {
                 if (string.IsNullOrEmpty(Session["openid"] + ""))
                 {
@@ -51,11 +61,11 @@ namespace ZL.Web.Controllers
                 {
                     r_fopenid = Session["openid"];
                 }
-                Response.Redirect(WebUtility.UrlDecode("http://" + Request.Url.Authority) + "/home/index/" + Session["openid"] + "/" + r_fopenid);
+                Response.Redirect(WebUtility.UrlDecode("http://" + Request.Url.Authority) + "/home/index/" + Session["openid"] + "/" + r_fopenid, false);
             }
             else
             {
-                l.Info("去授权"+ "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4d20a3efbcce8669&redirect_uri=http://wx.jumax-sh.dev.sudaotech.com/api/wechat/wechatToken/oauth2?url=" + WebUtility.UrlDecode("http://" + Request.Url.Authority + Request.Url.AbsolutePath) + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
+                //l.Info("去授权"+ "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4d20a3efbcce8669&redirect_uri=http://wx.jumax-sh.dev.sudaotech.com/api/wechat/wechatToken/oauth2?url=" + WebUtility.UrlDecode("http://" + Request.Url.Authority + Request.Url.AbsolutePath) + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
                 Response.Redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4d20a3efbcce8669&redirect_uri=http://wx.jumax-sh.dev.sudaotech.com/api/wechat/wechatToken/oauth2?url=" + WebUtility.UrlDecode("http://" + Request.Url.Authority + Request.Url.AbsolutePath) + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
 
             }
@@ -469,7 +479,15 @@ namespace ZL.Web.Controllers
             }
 
         }
+        public string GetMD5(string myString)
+        {
 
+            byte[] result = Encoding.Default.GetBytes(myString);    //tbPass为输入密码的文本框
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] output = md5.ComputeHash(result);
+
+            return BitConverter.ToString(output).Replace("-", "").ToLower();
+        }
 
         public string GerBs(string openid)
         {

@@ -107,8 +107,8 @@ body {
     }
 
     50% {
-        -webkit-transform: scale3d(1.05, 1.05, 1.05);
-        transform: scale3d(1.05, 1.05, 1.05);
+        -webkit-transform: scale3d(1.2, 1.2, 1.2);
+        transform: scale3d(1.2, 1.2, 1.2);
     }
 
     100% {
@@ -124,8 +124,8 @@ body {
     }
 
     50% {
-        -webkit-transform: scale3d(1.05, 1.05, 1.05);
-        transform: scale3d(1.05, 1.05, 1.05);
+        -webkit-transform: scale3d(1.2, 1.2, 1.2);
+        transform: scale3d(1.2, 1.2, 1.2);
     }
 
     100% {
@@ -141,6 +141,10 @@ body {
     left: 117px;
     width: 524px;
     height: 637px;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
 }
 
 #page_cj_sm {
@@ -844,5 +848,11 @@ body {
     font-size: 24px;
     color: #585858;
     line-height: 544px;
+}
+#ax {
+    z-index: 10;
+
+    position: absolute;
+    left: 190px;
 }
 /**********************************视频页************************************/
