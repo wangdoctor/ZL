@@ -70,7 +70,7 @@ namespace ZL.Web.Controllers
             else
             {
                 //l.Info("去授权"+ "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4d20a3efbcce8669&redirect_uri=http://wx.jumax-sh.dev.sudaotech.com/api/wechat/wechatToken/oauth2?url=" + WebUtility.UrlDecode("http://" + Request.Url.Authority + Request.Url.AbsolutePath) + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
-                Response.Redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4d20a3efbcce8669&redirect_uri=http://wx.jumax-sh.dev.sudaotech.com/api/wechat/wechatToken/oauth2?url=" + WebUtility.UrlDecode("http://" + Request.Url.Authority + Request.Url.AbsolutePath) + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
+                Response.Redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0b0290deafb09117&redirect_uri=http://wx.jumaxonline.judamax.com/api/wechat/wechatToken/oauth2?url=" + WebUtility.UrlDecode("http://" + Request.Url.Authority + Request.Url.AbsolutePath) + "&response_type=code&scope=snsapi_userinfo#wechat_redirect");
 
             }
             return View();

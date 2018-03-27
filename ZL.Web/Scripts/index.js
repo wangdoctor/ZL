@@ -52,7 +52,7 @@
     function settime(val) {
         if (App.countdown == 0) {
 
-            App.countdown = 60;
+           // App.countdown = 60;
         } else {
             App.countdown--;
             $('#page_zc_sms').html(App.countdown + "S");
@@ -570,7 +570,7 @@
                             }, 1000);
                             setTimeout(function () {
                                 $('#ax').hide();
-                            }, 2000);
+                            }, 3000);
                             $('#page_cj_btn2').show();
                             $('#page_cj_btn1').hide();
                         }
@@ -876,8 +876,8 @@
         oauthurl: escape(window.location.href),////当前页面完整url
         timestamp: '1414587457',////生成签名的时间戳
         nonceStr: 'wm3wzytpz0wzccnw',////生成签名的随机串
-        title: '充返制胜法宝！', // 分享标题
-        desc: '充返制胜法宝！', // 分享描述window.location='../index.html?ti='+q.ti+'&fens='+q.fens+'&gailv='+gailv;
+        title: '少年，要钱么', // 分享标题
+        desc: '这种乐(便)子(宜)，了解一下', // 分享描述window.location='../index.html?ti='+q.ti+'&fens='+q.fens+'&gailv='+gailv;
         link: 'http://jumaxnew.forean.cn/home/index/' + $("#openid").html().trim() + "/" + $("#openid").html().trim(), // 分享链接
         imgUrl: 'http://jumaxnew.forean.cn/img/fx.jpg', // 分享图标
         success: function () {////分享成功后执行的方法
