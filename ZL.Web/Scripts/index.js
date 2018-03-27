@@ -517,12 +517,21 @@
     $('#page_cj_cjsm_btn').click(function () {
         $('#page_gz').show();
     });
+    $('#page_cj_cjpasm_btn').click(function () {
+        $('#page_pa').show();
+    });
     $('.page_l_cjsm').click(function () {
         $('#page_cj_cjsm_btn').trigger('click');
+    });
+    $('.page_l_cjpasm').click(function () {
+        $('#page_cj_cjpasm_btn').trigger('click');
     });
     //关闭活动说明
     $('#page_gz_btn').click(function () {
         $('#page_gz').hide();
+    });
+    $('#page_pa_btn').click(function () {
+        $('#page_pa').hide();
     });
     //抽奖
     var cjkg = true;//开关

@@ -10,7 +10,6 @@
 </head>
 <body>
     <section hidden>
-        <img src="~/img/www.jpg" />
         <img src="~/img/alert_jb.png" />
         <img src="~/img/alert_ord.png" />
         <img src="~/img/alert_suc.png" />
@@ -23,12 +22,14 @@
         <img src="~/img/fx.jpg" />
         <img src="~/img/gif.gif" />
         <img src="~/img/load_m.png" />
+        <img src="~/img/logo.jpg" />
         <img src="~/img/page_cj_0.0.png" />
         <img src="~/img/page_cj_1.1.png" />
         <img src="~/img/page_cj_1.2.png" />
         <img src="~/img/page_cj_1.3.png" />
         <img src="~/img/page_cj_alert.png" />
         <img src="~/img/page_cj_btn.png" />
+        <img src="~/img/page_cj_pabg.png" />
         <img src="~/img/page_cj_smbg.png" />
         <img src="~/img/page_cj_yh.jpg" />
         <img src="~/img/page_cj_zcyc.png" />
@@ -64,6 +65,7 @@
         <img src="~/img/page_zd_head.png" />
         <img src="~/img/sc.png" />
         <img src="~/img/skip.png" />
+        <img src="~/img/www.jpg" />
     </section>
     <!--Loading-->
     <div id="load">
@@ -77,7 +79,7 @@
     <!--视频页-->
     <div id="fvideo">
         <video src="http://video.forean.cn/sch5.mp4" poster="../../../img/fm.jpg" type="video/mp4" id="video" onload="true" webkit-playsinline playsinline x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
-        <img src="~/img/skip.png"  id="tiaoguo"/>
+        <img src="~/img/skip.png" id="tiaoguo" />
     </div>
     <!--视频页-->
     <!--抽奖页-->
@@ -103,10 +105,21 @@
 
                 </div>
             </div>
-            <img id="ax" src="~/img/gif.gif" hidden/>
-            <span id="page_cj_cjsm_btn">
-                抽奖说明
-            </span>
+            <img id="ax" src="~/img/gif.gif" hidden />
+            <table style="    width: 39%;margin: auto;position: relative;top: 734px;">
+                <tr>
+                    <td>
+                        <span id="page_cj_cjsm_btn">
+                            抽奖说明
+                        </span>
+                    </td>
+                    <td>
+                        <span id="page_cj_cjpasm_btn">
+                            品牌展示
+                        </span>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <!--抽奖页-->
@@ -141,11 +154,26 @@
                 </div>
                 <div id="page_gz_btn"></div>
             </div>
-          
+
         </div>
 
     </div>
     <!--奖品规则页-->
+    <!--品牌页-->
+    <div id="page_pa" hidden>
+        <div id="page_pa_m">
+            <div id="page_pa_m_sm">
+                <div id="page_pa_mm">
+                    <img style="width: 100%;" src="~/img/logo.jpg" />
+
+                </div>
+                <div id="page_pa_btn"></div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--品牌页-->
     <!--注册页-->
     <div id="page_zc" hidden>
         <img style="margin: 40px;" src="~/img/page_zd_head.png" />
@@ -244,7 +272,17 @@
                 最高倍数为2倍！
             </span>
         </div>
-        <span class="page_l_cjsm">抽奖说明</span>
+        <table  style="width: 39%;margin: auto;margin-top: 35px;margin-bottom: 25px;">
+            <tr>
+                <td>
+                    <span class="page_l_cjsm">抽奖说明</span>
+                </td>
+                <td>
+                    <span class="page_l_cjpasm">品牌展示</span>
+                </td>
+            </tr>
+        </table>
+       
         <div id="page_l_yq">
 
         </div>
@@ -332,7 +370,16 @@
                 <span class="ts">还没有好友注册，快邀请好友加倍吧</span>
             </div>
         </div>
-        <span class="page_l_cjsm">抽奖说明</span>
+        <table style="width: 39%;margin: auto;margin-top: 35px;margin-bottom: 25px;">
+            <tr>
+                <td>
+                    <span class="page_l_cjsm">抽奖说明</span>
+                </td>
+                <td>
+                    <span class="page_l_cjpasm">品牌展示</span>
+                </td>
+            </tr>
+        </table>
         <div id="page_f_btn">
 
         </div>

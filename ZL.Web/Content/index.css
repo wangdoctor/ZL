@@ -185,11 +185,9 @@ body {
     background-size: cover;
 }
 
-#page_cj_cjsm_btn {
+#page_cj_cjsm_btn,#page_cj_cjpasm_btn {
     color: #363636;
     font-size: 27px;
-    position: relative;
-    top: 734px;
     text-decoration: underline;
 }
 
@@ -374,6 +372,60 @@ body {
     background-size: cover;
 }
 /**********************************规则页************************************/
+/**********************************品牌页************************************/
+#page_pa {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+    background: url(../../../img/bg.jpg) top center;
+    background-size: cover;
+    z-index: 10;
+}
+
+#page_pa_m {
+    position: absolute;
+    width: 698px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1062px;
+    margin: auto;
+    background-color: #fff;
+}
+
+#page_pa_m_sm {
+    width: 698px;
+    height: 1062px;
+    background: url(../../../img/page_cj_pabg.png) top center;
+    background-size: cover;
+}
+
+#page_pa_mm {
+    font-size: 20px;
+    color: #404040;
+    text-align: left;
+    position: relative;
+    top: 111px;
+    width: 90%;
+    margin: auto;
+    height: 760px;
+    overflow: auto;
+    line-height: 30px;
+    letter-spacing: 1px;
+}
+
+#page_pa_btn {
+    position: relative;
+    margin: 170px auto 0 auto;
+    width: 346px;
+    height: 81px;
+    background: url(../../../img/btn_fh.png) top center;
+    background-size: cover;
+}
+/**********************************品牌页************************************/
 /**********************************注册页************************************/
 #page_zc {
     position: absolute;
@@ -596,13 +648,9 @@ body {
     line-height: 42px;
 }
 
-.page_l_cjsm {
+.page_l_cjsm,.page_l_cjpasm {
     font-size: 26px;
     color: #393939;
-    margin-top: 35px;
-    margin-bottom: 25px;
-    position: relative;
-    display: block;
     text-decoration: underline;
 }
 

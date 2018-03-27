@@ -45,7 +45,7 @@ namespace ZL.Web.Controllers
                 return View();
             }
             ////读取分享者Openid
-            if ((!string.IsNullOrEmpty(openid) && sign == GetMD5(openid + randomKey)) || !string.IsNullOrEmpty(Session["openid"] + ""))
+             if ((!string.IsNullOrEmpty(openid) && sign == GetMD5(openid + randomKey)) || !string.IsNullOrEmpty(Session["openid"] + ""))
             //if (!string.IsNullOrEmpty(openid)|| !string.IsNullOrEmpty(Session["openid"] + ""))
             {
                 if (string.IsNullOrEmpty(Session["openid"] + ""))
@@ -110,6 +110,16 @@ namespace ZL.Web.Controllers
                 logger.Info("登录成功返回：" + openid + msg);
                 var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
                 Bind(openid, dd.userId);
+                var uid = GerBs(openid).Split(',');
+                if (uid.Length > 1)
+                {
+                    Bssub(new Bs()
+                    {
+                        activityId = "1",
+                        lastRate = decimal.Round(decimal.Parse(uid[0]), 1) + "",
+                        userId = uid[1]
+                    });
+                }
                 return Json("true");
             }
 
@@ -339,12 +349,12 @@ namespace ZL.Web.Controllers
             if (msg.IndexOf("error") > -1)
             {
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
-                logger.Info("返回中奖倍数:" + msg);
+                logger.Info("失败返回中奖倍数:" + msg);
             }
             else
             {
                 var dd = JsonConvert.DeserializeObject<Bsr>(msg);
-                logger.Info("返回中奖倍数:" + msg);
+                logger.Info("成功返回中奖倍数:" + msg);
             }
         }
 

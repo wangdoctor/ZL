@@ -228,12 +228,14 @@
     <Content Include="img\fx.jpg" />
     <Content Include="img\gif.gif" />
     <Content Include="img\load_m.png" />
+    <Content Include="img\logo.jpg" />
     <Content Include="img\page_cj_0.0.png" />
     <Content Include="img\page_cj_1.1.png" />
     <Content Include="img\page_cj_1.2.png" />
     <Content Include="img\page_cj_1.3.png" />
     <Content Include="img\page_cj_alert.png" />
     <Content Include="img\page_cj_btn.png" />
+    <Content Include="img\page_cj_pabg.png" />
     <Content Include="img\page_cj_smbg.png" />
     <Content Include="img\page_cj_yh.jpg" />
     <Content Include="img\page_cj_zcyc.png" />
