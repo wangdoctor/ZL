@@ -227,6 +227,7 @@
     <Content Include="img\fm.jpg" />
     <Content Include="img\fx.jpg" />
     <Content Include="img\gif.gif" />
+    <Content Include="img\jtt.png" />
     <Content Include="img\load_m.png" />
     <Content Include="img\logo.jpg" />
     <Content Include="img\page_cj_0.0.png" />
@@ -272,6 +273,7 @@
     <Content Include="img\sc.png" />
     <Content Include="img\skip.png" />
     <Content Include="img\www.jpg" />
+    <Content Include="img\xb.png" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />

@@ -899,10 +899,72 @@ body {
     color: #585858;
     line-height: 544px;
 }
+
 #ax {
     z-index: 10;
-
     position: absolute;
     left: 190px;
 }
+
+.tc {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.xb {
+    top: 250px;
+    left: 81px;
+    z-index: 2;
+    position: absolute;
+    margin: 0 auto;
+    width: 591px;
+    height: 748px;
+    background: url(../../../img/xb.png) top center;
+    background-size: 100% 100%;
+}
+
+.xbc {
+    position: absolute;
+    width: 83px;
+    height: 83px;
+    bottom: 0;
+    left: 255px;
+}
+
+.tss {
+    color: #585858;
+    font-size: 21px;
+    margin-top: 8px;
+    display: block;
+}
+
+.next-page {
+    position: fixed;
+    z-index: 2;
+       bottom: 100px;
+    right: 100px;
+    width:84px;
+    height:140px;
+    animation: nextpage 2s linear infinite;
+    -webkit-animation: nextpage 2s linear infinite;
+        background: url(../../../img/jtt.png) top center;
+    background-size: 100% 100%;
+}
+
+@keyframes nextpage {
+    0% {
+        opacity: 0;
+       transform:translate(0,0);
+    }
+
+    100% {
+        opacity: 1;
+       transform:translate(0,100px);
+    }
+}
+
 /**********************************视频页************************************/

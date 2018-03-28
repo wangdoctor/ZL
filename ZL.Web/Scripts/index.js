@@ -872,6 +872,18 @@
     $('#page_f_btn2').click(function () {
         window.location.href = "http://jumaxnew.forean.cn/home/index";
     });
+    $('.xbc').click(function () {
+        $('.tc').remove();
+        $('.xb').remove();
+    });
+    window.onscroll = function () {
+        var top = document.documentElement.scrollTop || document.body.scrollTop;
+        if (top>=600) {
+            $('.next-page').hide();
+        } else {
+            $('.next-page').show();
+        }
+    }
     dz({
         debug: false,
         appid: 'wx3bdf51f7e21320d3',  ////公众号appid

@@ -1,0 +1,14 @@
+2018-03-29 05:45:36.9477 | Info  | 提交中奖倍数:{"activityId":"1","lastRate":"1.1","userId":"78869"} 
+2018-03-29 05:45:37.4202 | Info  | 成功返回中奖倍数:{"activityId":1,"activityRateId":17900,"createTime":1522273482000,"createUserId":-99,"createUserName":"tester","deleted":"NORMAL","displayOrder":0,"lastRate":1.10,"lastUpdate":1522273481000,"updateTime":1522273482000,"updateUserId":-99,"updateUserName":"tester","userId":78869,"version":0} 
+2018-03-29 05:45:39.0086 | Info  | 提交中奖倍数:{"activityId":"1","lastRate":"1.1","userId":"78869"} 
+2018-03-29 05:45:39.1716 | Info  | 成功返回中奖倍数:{"activityId":1,"activityRateId":17901,"createTime":1522273484000,"createUserId":-99,"createUserName":"tester","deleted":"NORMAL","displayOrder":0,"lastRate":1.10,"lastUpdate":1522273483000,"updateTime":1522273484000,"updateUserId":-99,"updateUserName":"tester","userId":78869,"version":0} 
+2018-03-29 05:45:45.4247 | Info  | 提交中奖倍数:{"activityId":"1","lastRate":"1.1","userId":"78869"} 
+2018-03-29 05:45:45.8314 | Info  | 成功返回中奖倍数:{"activityId":1,"activityRateId":17902,"createTime":1522273490000,"createUserId":-99,"createUserName":"tester","deleted":"NORMAL","displayOrder":0,"lastRate":1.10,"lastUpdate":1522273490000,"updateTime":1522273490000,"updateUserId":-99,"updateUserName":"tester","userId":78869,"version":0} 
+2018-03-29 06:07:26.2432 | Info  | 短信验证码提交：{"cellphone":null,"rand":"1522274844911","captcha":null,"validateType":1} 
+2018-03-29 06:07:26.8796 | Info  | {"code":403508,"errors":[{"message":"验证码为空","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"验证码为空"} 
+2018-03-29 06:07:30.9410 | Info  | 短信验证码提交：{"cellphone":null,"rand":"1522274844911","captcha":null,"validateType":1} 
+2018-03-29 06:07:31.0472 | Info  | {"code":403508,"errors":[{"message":"验证码为空","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"验证码为空"} 
+2018-03-29 06:08:38.7681 | Info  | 短信验证码提交：{"cellphone":"15066479033","rand":"1522274844911","captcha":"3ami","validateType":1} 
+2018-03-29 06:08:39.0183 | Info  | {"code":403505,"errors":[{"message":"验证码错误","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"验证码错误"} 
+2018-03-29 06:08:51.2175 | Info  | 短信验证码提交：{"cellphone":"15066479033","rand":"1522274924556","captcha":"i7sg","validateType":1} 
+2018-03-29 06:08:51.9372 | Info  | {"result":true} 
