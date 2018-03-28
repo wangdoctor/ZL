@@ -3,7 +3,7 @@
     /*********************************************全局变量********************************************/
     App = {
         rand: 0,
-        countdown: 90,
+        countdown: 60,
         bs: 0,
         page: 0,
         ct: 0,
@@ -51,8 +51,8 @@
 
     function settime(val) {
         if (App.countdown == 0) {
-
-           // App.countdown = 60;
+            dxcjkg = true;
+            $('#page_zc_sms').html("获取验证码");
         } else {
             App.countdown--;
             $('#page_zc_sms').html(App.countdown + "S");
@@ -644,9 +644,10 @@
     });
     $('#page_zc_imgyzm').click(function () { $('#page_l_cz').trigger('click'); });
     //获取短信验证码
+    var dxcjkg = true;
     $('#page_zc_sms').click(function () {
-        if (cjkg) {
-            cjkg = false;
+        if (dxcjkg) {
+            dxcjkg = false;
             $.ajax({
                 //提交数据的类型 POST GET
                 type: "POST",
@@ -671,11 +672,11 @@
                     else {
                         alert(data);
                     }
-                    cjkg = true;
+                   // dxcjkg = true;
                 },
                 //调用出错执行的函数
                 error: function (e) {
-                    cjkg = true;
+                    dxcjkg = true;
                 }
             });
         }
