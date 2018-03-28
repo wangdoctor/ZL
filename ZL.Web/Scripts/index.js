@@ -670,6 +670,7 @@
                         settime(90);
                     }
                     else {
+                        dxcjkg = true;
                         alert(data);
                     }
                    // dxcjkg = true;

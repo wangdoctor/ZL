@@ -78,7 +78,6 @@ namespace ZL.Web.Controllers
 
         public ActionResult About()
         {
-
             return View();
         }
 
@@ -102,16 +101,16 @@ namespace ZL.Web.Controllers
             ResponseInfo res = new ResponseInfo();
             Log logger = new Log();
             logger.Info("登录提交：" + JsonConvert.SerializeObject(userinfo) + "&&" + openid);
-            msg = zlHttp.Post("http://www.jumax-sh.dev.sudaotech.com/api/mall/auth/login", JsonConvert.SerializeObject(userinfo));
+            msg = zlHttp.Post(ConfigurationManager.AppSettings["baseurl"]+"/auth/login", JsonConvert.SerializeObject(userinfo));
             if (msg.IndexOf("error") > -1)
             {
-                logger.Info("登录失败返回：" + openid + msg);
+                logger.Info("登录失败返回：" + openid + msg+ ConfigurationManager.AppSettings["baseurl"] + "/auth/login");
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
                 return Json(res.message);
             }
             else
             {
-                logger.Info("登录成功返回：" + openid + msg);
+                logger.Info("登录成功返回：" + openid + msg+ ConfigurationManager.AppSettings["baseurl"] + "/auth/login");
                 var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
                 Bind(openid, dd.userId);
                 var uid = GerBs(openid).Split(',');
