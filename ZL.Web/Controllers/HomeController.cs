@@ -50,7 +50,7 @@ namespace ZL.Web.Controllers
             }
             ////读取分享者Openid
              if ((!string.IsNullOrEmpty(openid) && sign == GetMD5(openid + randomKey)) || !string.IsNullOrEmpty(Session["openid"] + ""))
-            //if (!string.IsNullOrEmpty(openid)|| !string.IsNullOrEmpty(Session["openid"] + ""))
+             //if (!string.IsNullOrEmpty(openid)|| !string.IsNullOrEmpty(Session["openid"] + ""))
             {
                 if (string.IsNullOrEmpty(Session["openid"] + ""))
                 {
@@ -101,8 +101,9 @@ namespace ZL.Web.Controllers
             ResponseInfo res = new ResponseInfo();
             Log logger = new Log();
             logger.Info("登录提交：" + JsonConvert.SerializeObject(userinfo) + "&&" + openid);
-            msg = zlHttp.Post(ConfigurationManager.AppSettings["baseurl"]+"/auth/login", JsonConvert.SerializeObject(userinfo));
-            if (msg.IndexOf("error") > -1)
+            var rts = zlHttp.Posts(ConfigurationManager.AppSettings["baseurl"]+"/auth/login", JsonConvert.SerializeObject(userinfo));
+            msg = rts[0];
+            if (rts[1].IndexOf("200") <=-1)
             {
                 logger.Info("登录失败返回：" + openid + msg+ ConfigurationManager.AppSettings["baseurl"] + "/auth/login");
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
@@ -140,17 +141,18 @@ namespace ZL.Web.Controllers
             ResponseInfo res = new ResponseInfo();
             Log logger = new Log();
             logger.Info("注册提交：" + JsonConvert.SerializeObject(reg) + "&&openid=" + openid + "&&fopenid" + fopenid);
-            msg = zlHttp.Post(ConfigurationManager.AppSettings["baseurl"] + "/auth/register", JsonConvert.SerializeObject(reg));
-            if (msg.IndexOf("error") > -1)
+            var rts = zlHttp.Posts(ConfigurationManager.AppSettings["baseurl"] + "/auth/register", JsonConvert.SerializeObject(reg));
+            msg = rts[0];
+            if (rts[1].IndexOf("200") <= -1)
             {
-                logger.Info("注册返回：" + openid + msg);
+                logger.Info("注册失败返回：" + openid + msg);
                 res = JsonConvert.DeserializeObject<ResponseInfo>(msg);
                 return Json(res.message);
 
             }
             else
             {
-                logger.Info("注册返回：" + openid + msg);
+                logger.Info("注册成功返回：" + openid + msg);
                 var dd = JsonConvert.DeserializeObject<UserInfo>(msg);
                 Bind(openid, dd.storeUserId,1);
                 if (openid != fopenid)

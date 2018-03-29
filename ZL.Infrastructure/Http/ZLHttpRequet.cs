@@ -41,7 +41,34 @@ namespace ZL.Infrastructure
             }
             return OrderQuantity;
         }
+        public string[] Posts(string url, string postdata)
+        {
+            string[] rts = new string[2];
+            WebRequest request = WebRequest.Create(url);
+            request.Method = "POST";
 
+            //post传参数  
+            byte[] bytes = Encoding.UTF8.GetBytes(postdata);
+            request.ContentType = "application/json;charset=UTF-8";
+            request.ContentLength = postdata.Length;
+            Stream sendStream = request.GetRequestStream();
+            sendStream.Write(bytes, 0, bytes.Length);
+            sendStream.Close();
+            string OrderQuantity = string.Empty;
+            try
+            {
+                var rsp = request.GetResponse() as HttpWebResponse; // 最好能捕获异常302的HttpException,然后再处理一下。在Data中取键值 Location  
+                rts[0] = new StreamReader(rsp.GetResponseStream(), Encoding.GetEncoding("UTF-8")).ReadToEnd();
+                rts[1] = "200";
+            }
+            catch (Exception ex)
+            {
+                var rsp = ((System.Net.WebException)ex).Response as HttpWebResponse;
+                rts[0] = new StreamReader(rsp.GetResponseStream(), Encoding.GetEncoding("UTF-8")).ReadToEnd();
+                rts[1] = ex.Message;
+            }
+            return rts;
+        }
         /// <summary>
         /// Get请求
         /// </summary>

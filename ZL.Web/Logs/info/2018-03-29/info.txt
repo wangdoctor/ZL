@@ -12,3 +12,19 @@
 2018-03-29 06:08:39.0183 | Info  | {"code":403505,"errors":[{"message":"验证码错误","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"验证码错误"} 
 2018-03-29 06:08:51.2175 | Info  | 短信验证码提交：{"cellphone":"15066479033","rand":"1522274924556","captcha":"i7sg","validateType":1} 
 2018-03-29 06:08:51.9372 | Info  | {"result":true} 
+2018-03-29 10:59:32.7564 | Info  | 登录提交：{"userName":"13121758943","password":"12"}&&oIxj5wjfAiSy8vVicAXjJhVzmGk4345 
+2018-03-29 11:00:05.3514 | Info  | 登录失败返回：oIxj5wjfAiSy8vVicAXjJhVzmGk4345http://www.judamax.com/api/mall/auth/login 
+2018-03-29 11:03:17.9971 | Info  | 登录提交：{"userName":"132121","password":"2112"}&&oIxj5wjfAiSy8vVicAXjJhVzmGk40 
+2018-03-29 11:03:21.5734 | Info  | 登录失败返回：oIxj5wjfAiSy8vVicAXjJhVzmGk40{"code":403110,"errors":[{"message":"用户名或密码错误","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"用户名或密码错误"}http://www.judamax.com/api/mall/auth/login 
+2018-03-29 11:10:54.6428 | Info  | 登录提交：{"userName":"13121758943","password":"123456"}&&oIxj5wjfAiSy8vVicAXjJhVzmGk40 
+2018-03-29 11:10:58.4338 | Info  | 登录失败返回：oIxj5wjfAiSy8vVicAXjJhVzmGk40{"code":403110,"errors":[{"message":"用户名或密码错误","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"用户名或密码错误"}http://www.judamax.com/api/mall/auth/login 
+2018-03-29 11:11:07.5098 | Info  | 登录提交：{"userName":"13121758943","password":"123123"}&&oIxj5wjfAiSy8vVicAXjJhVzmGk40 
+2018-03-29 11:11:10.2678 | Info  | 登录成功返回：oIxj5wjfAiSy8vVicAXjJhVzmGk40{"cellphone":"13121758943","photo":"","userName":"13121758943","userId":"78869","token":"GYPi4Hhql1uOww0IWJbiRrNHcnYJmc43FbdqqqAEz5AKSYM9pW9K7SLtjpKgaIDY%2BiNla%2BSIZ37qp1a50ZX6fUTf6tuLn%2FitoWdsk%2FeVaqafCPnEFq2mNmtS%2FJUNer5q%2F8Zh3sh%2FaTRLOQXhRPXTSA%3D%3D"}http://www.judamax.com/api/mall/auth/login 
+2018-03-29 11:11:14.0188 | Info  | 提交中奖倍数:{"activityId":"1","lastRate":"1.3","userId":"78869"} 
+2018-03-29 11:11:14.1018 | Info  | 成功返回中奖倍数:{"activityId":1,"activityRateId":19892,"createTime":1522293068000,"createUserId":-99,"createUserName":"tester","deleted":"NORMAL","displayOrder":0,"lastRate":1.30,"lastUpdate":1522293068000,"updateTime":1522293068000,"updateUserId":-99,"updateUserName":"tester","userId":78869,"version":0} 
+2018-03-29 11:26:08.6158 | Info  | 短信验证码提交：{"cellphone":null,"rand":"1522293966988","captcha":null,"validateType":1} 
+2018-03-29 11:26:08.8368 | Info  | {"code":403508,"errors":[{"message":"验证码为空","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"验证码为空"} 
+2018-03-29 11:26:15.8348 | Info  | 注册提交：{"cellphone":"123","password":"22","smscode":"22","registSource":"wechat183"}&&openid=oYTBEwPAuIfnATjZHRsEPlW0pJ_o&&fopenidoYTBEwPAuIfnATjZHRsEPlW0pJ_o 
+2018-03-29 11:26:15.9788 | Info  | 注册失败返回：oYTBEwPAuIfnATjZHRsEPlW0pJ_o{"code":403551,"errors":[{"message":"手机格式不正确","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"手机格式不正确"} 
+2018-03-29 11:26:38.4063 | Info  | 注册提交：{"cellphone":"123","password":"22","smscode":"22","registSource":"wechat183"}&&openid=oYTBEwPAuIfnATjZHRsEPlW0pJ_o&&fopenidoYTBEwPAuIfnATjZHRsEPlW0pJ_o 
+2018-03-29 11:26:50.3243 | Info  | 注册失败返回：oYTBEwPAuIfnATjZHRsEPlW0pJ_o{"code":403551,"errors":[{"message":"手机格式不正确","reason":"[Forbidden] - 服务器拒绝执行该请求"}],"message":"手机格式不正确"} 
