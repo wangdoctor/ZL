@@ -13,12 +13,6 @@ namespace ZL.Web.Controllers
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
-            while (true)
-            {
-                Log log = new Log();
-                log.Info("老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王");
-                log.Error("老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王");
-            }
             return new string[] { "value1", "value2" };
         }
 
