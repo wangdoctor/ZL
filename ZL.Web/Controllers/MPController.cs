@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ZL.Infrastructure;
 
 namespace ZL.Web.Controllers
 {
@@ -12,6 +13,12 @@ namespace ZL.Web.Controllers
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
+            while (true)
+            {
+                Log log = new Log();
+                log.Info("老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王");
+                log.Error("老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王老王");
+            }
             return new string[] { "value1", "value2" };
         }
 
