@@ -241,3 +241,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /ZL.Web/Logs
+/ZL.Web/Web.config
