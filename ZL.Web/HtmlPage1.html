@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+    <form id="myForm" name="myForm" action="http://localhost:65106/api/mp/GetOpenid" method="POST">
+        <div>
+            <label for="username">Enter name:</label>
+            <input type="text" id="loginfo" name="loginfo" value="1">
+        </div>
+        <input type="submit" value="Submit!">
+    </form>
+    <script>
+        var myForm = document.getElementById('myForm');
+        var formData = new FormData(myForm);
+        $.ajax({
+            //提交数据的类型 POST GET
+            type: "POST",
+            //提交的网址
+            url: "http://localhost:65106/api/mp/GetOpenid",
+            cache: false,
+            async: false,
+            contentType:"application/json; charset=utf-8",
+            processData: false,
+            contentType: false,
+            //提交的数据
+            data: formData,
+            //返回数据的格式
+            datatype: "json", //"xml", "html", "script", "json", "jsonp", "text".
+            beforeSend: function () {
+            },
+            //成功返回之后调用的函数
+            success: function (data) {
+
+            },
+            //调用出错执行的函数
+            error: function (d) {
+
+            }
+        });
+    </script>
+</body>
+</html>

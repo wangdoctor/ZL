@@ -18,17 +18,25 @@ namespace ZL.Infrastructure
         /// <returns></returns>
         public string Post(string url, string postdata)
         {
-            WebRequest request = WebRequest.Create(url);
-            request.Method = "POST";
-
-            //post传参数  
-            byte[] bytes = Encoding.UTF8.GetBytes(postdata);
-            request.ContentType = "application/json;charset=UTF-8";
-            request.ContentLength = postdata.Length;
-            Stream sendStream = request.GetRequestStream();
-            sendStream.Write(bytes, 0, bytes.Length);
-            sendStream.Close();
             string OrderQuantity = string.Empty;
+            WebRequest request = WebRequest.Create(url);
+            try
+            {
+                request.Method = "POST";
+                //post传参数  
+                byte[] bytes = Encoding.UTF8.GetBytes(postdata);
+                request.ContentType = "application/json;charset=UTF-8";
+                request.ContentLength = postdata.Length;
+                Stream sendStream = request.GetRequestStream();
+                sendStream.Write(bytes, 0, bytes.Length);
+                sendStream.Close();
+            }
+            catch(Exception ex)
+            {
+
+                return OrderQuantity;
+            }
+
             try
             {
                 var rsp = request.GetResponse() as HttpWebResponse; // 最好能捕获异常302的HttpException,然后再处理一下。在Data中取键值 Location  
@@ -37,7 +45,10 @@ namespace ZL.Infrastructure
             catch (Exception ex)
             {
                 var rsp = ((System.Net.WebException)ex).Response as HttpWebResponse;
-                OrderQuantity = new StreamReader(rsp.GetResponseStream(), Encoding.GetEncoding("UTF-8")).ReadToEnd();
+                if (rsp != null)
+                {
+                    OrderQuantity = new StreamReader(rsp.GetResponseStream(), Encoding.GetEncoding("UTF-8")).ReadToEnd();
+                }
             }
             return OrderQuantity;
         }
@@ -57,9 +68,9 @@ namespace ZL.Infrastructure
             byte[] bytes = Encoding.ASCII.GetBytes(postdata);
             request.ContentType = "application/json";
             request.ContentLength = postdata.Length;
-            Stream sendStream = request.GetRequestStream();
-            sendStream.Write(bytes, 0, bytes.Length);
-            sendStream.Close();
+            //Stream sendStream = request.GetRequestStream();
+            //sendStream.Write(bytes, 0, bytes.Length);
+            //sendStream.Close();
             string OrderQuantity = string.Empty;
             try
             {
