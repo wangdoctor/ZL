@@ -57,12 +57,12 @@ namespace ZL.Web.Controllers
                 {
                 new SqlParameter("@openid",user.Openid),
                 new SqlParameter("@gender",user.Gender),
-                new SqlParameter("@avatarUrl",user.AvatarUrl),
+                new SqlParameter("@avatarUrl",user.avatarUrl),
                 new SqlParameter("@city",user.City),
                 new SqlParameter("@country",user.Country),
                 new SqlParameter("@language",user.Language),
                 new SqlParameter("@province",user.Province),
-                new SqlParameter("@nickname",user.NickName)
+                new SqlParameter("@nickname",user.nickName)
                 };
             string sql = @"UPDATE [JM_WechatUserInfo]
                            SET [NickName] = @nickname
@@ -86,8 +86,10 @@ namespace ZL.Web.Controllers
         [HttpPost]
         public IHttpActionResult Login([FromBody]ShopLoginUserInfo loginfo)
         {
+            Log l = new Log();
             ZLHttpRequet zlhttp = new ZLHttpRequet();
             string s = zlhttp.Post(ConfigurationManager.AppSettings["api"] + "/auth/login", JsonConvert.SerializeObject(loginfo));
+            l.Info("登录："+s);
             var info = JsonConvert.DeserializeObject<Root>(s);
             if (info != null && info.cellphone != null)
             {
@@ -100,7 +102,7 @@ namespace ZL.Web.Controllers
                 new SqlParameter("@userId",info.userId),
                 new SqlParameter("@formID",loginfo.FormID)
                 };
-                string sql = @"exec [AddShopUser] @openid,@cellphone,@photo,@userName,@userId,@formID,1";
+                string sql = @"exec [AddShopUser] @openid,@cellphone,@photo,@userName,@userId,@formID,0";
                 DbHelperSQL db = new DbHelperSQL();
                 db.ExecuteSql(sql, paras);
                 return Ok(true);
@@ -123,8 +125,10 @@ namespace ZL.Web.Controllers
         [HttpPost]
         public IHttpActionResult GetSms([FromBody]ShopUserInfo loginfo)
         {
+            Log l = new Log();
             ZLHttpRequet zlhttp = new ZLHttpRequet();
             string s = zlhttp.Post(ConfigurationManager.AppSettings["api"] + "/sms/vcode", JsonConvert.SerializeObject(loginfo));
+            l.Info("获取短信验证码："+s);
             var info = JsonConvert.DeserializeObject<Root>(s);
             if (info != null && info.result != null)
             {
@@ -148,21 +152,26 @@ namespace ZL.Web.Controllers
         [HttpPost]
         public IHttpActionResult Register([FromBody]ShopUserInfo loginfo)
         {
+
             ZLHttpRequet zlhttp = new ZLHttpRequet();
             string s = zlhttp.Post(ConfigurationManager.AppSettings["api"] + "/auth/register", JsonConvert.SerializeObject(loginfo));
+            Log l = new Log();
+            l.Info("注册：" + s);
             var info = JsonConvert.DeserializeObject<Root>(s);
-            if (info != null && info.result != null)
+            if (info != null && info.cellphone != null)
             {
                 SqlParameter[] paras = new SqlParameter[]
                 {
                 new SqlParameter("@openid",loginfo.Openid),
+                new SqlParameter("@fopenid",loginfo.FOpenid),
                 new SqlParameter("@cellphone",info.cellphone),
                 new SqlParameter("@photo",""),
                 new SqlParameter("@userName",info.userName),
                 new SqlParameter("@userId",info.storeUserId),
                 new SqlParameter("@formID",loginfo.FormID)
                 };
-                string sql = @"exec [AddShopUser] @openid,@cellphone,@photo,@userName,@userId,@formID,1";
+                string sql = @"exec [AddShopUser] @openid,@cellphone,@photo,@userName,@userId,@formID,1
+                                exec [BindUser]  @fopenid,@openid";
                 DbHelperSQL db = new DbHelperSQL();
                 db.ExecuteSql(sql, paras);
                 return Ok(true);
@@ -176,27 +185,27 @@ namespace ZL.Web.Controllers
                 return Ok(false);
             }
         }
-
         /// <summary>
         /// 剩余返现金额
         /// </summary>
         /// <param name="loginfo"></param>
         /// <returns></returns>
-        [HttpGet]
-        public IHttpActionResult GetTotalRecharge()
+        private float GetTotalRecharge()
         {
             ZLHttpRequet zlhttp = new ZLHttpRequet();
             string s = zlhttp.Get(ConfigurationManager.AppSettings["api"] + "/auth/getTotalRecharge?key=sS5W8R7Ktt2bF7g4&startTime=2018-10-01 00:00:00&endTime=2018-10-10 00:00:00&activityId=6", "");
+            Log l = new Log();
+            l.Info("剩余返现金额：" + s);
             var info = JsonConvert.DeserializeObject<Root>(s);
             if (info != null && info.rechargeAmout != 0)
             {
                 //float all = info.RechargeCashbackActivity.cashbackAggregateLimit;
                 float use = (6000000 - info.rechargeAmout) / 10000;
-                return Ok(use);
+                return use;
             }
             else
             {
-                return Ok(0);
+                return 0;
             }
         }
 
@@ -205,19 +214,23 @@ namespace ZL.Web.Controllers
         /// </summary>
         /// <param name="shopInfo"></param>
         /// <returns></returns>
-        [HttpPost]
-        public IHttpActionResult Getamount([FromBody]ShopLoginUserInfo shopInfo)
+        private Account Getamount(string userid)
         {
+            //查询用户的商城ID
             ZLHttpRequet zlhttp = new ZLHttpRequet();
-            string s = zlhttp.Get(ConfigurationManager.AppSettings["api"] + "/rcActivity/shoppingRate?activityId=7&userId=" + shopInfo.UserName, "");
+            string s = zlhttp.Get(ConfigurationManager.AppSettings["api"] + "/rcActivity/shoppingRate?activityId=7&userId=" + userid, "");
+            Log l = new Log();
+            l.Info("查询用户的商城：" + s);
             var info = JsonConvert.DeserializeObject<Root>(s);
+            //返现信息
+            Account ac = new Account();
             if (info != null && info.data != null)
             {
                 SqlParameter[] paras = new SqlParameter[]
                 {
                 new SqlParameter("@ShopInitRate",info.data.initRate),
                 new SqlParameter("@ShopSpendingAmount",info.data.spendingAmount),
-                new SqlParameter("@ShopUserID",shopInfo.UserName),
+                new SqlParameter("@ShopUserID",userid),
                 };
                 string sql = @" update[JM_ShopUserInfo] set[ShopInitRate] =@ShopInitRate,[ShopSpendingAmount]=@ShopSpendingAmount  where[ShopUserID]=@ShopUserID";
                 DbHelperSQL db = new DbHelperSQL();
@@ -226,7 +239,7 @@ namespace ZL.Web.Controllers
                 //float all = info.RechargeCashbackActivity.cashbackAggregateLimit;
                 //翻译倍数
                 float nowAmount = float.Parse(info.data.spendingAmount);
-                Account ac = new Account();
+
                 if (nowAmount >= 15000)
                 {
                     ac.yixiaofei = nowAmount;
@@ -235,12 +248,12 @@ namespace ZL.Web.Controllers
                     ac.lang = 690;
                     ac.nowbeishu = 2.0;
                 }
-                else if (nowAmount>= 9000 &&nowAmount < 15000)
+                else if (nowAmount >= 9000 && nowAmount < 15000)
                 {
                     ac.yixiaofei = nowAmount;
-                    ac.zaixiaofei = 15000- nowAmount;
+                    ac.zaixiaofei = 15000 - nowAmount;
                     ac.beishu = 1;
-                    ac.lang = (nowAmount - 9000) / 6000 * 162 + 162*3;
+                    ac.lang = (nowAmount - 9000) / 6000 * 162 + 162 * 3;
                     ac.nowbeishu = 1.8;
                 }
                 else if (nowAmount >= 6000 && nowAmount < 9000)
@@ -248,15 +261,15 @@ namespace ZL.Web.Controllers
                     ac.yixiaofei = nowAmount;
                     ac.zaixiaofei = 9000 - nowAmount;
                     ac.beishu = 0.8;
-                    ac.lang = (nowAmount - 6000) / 3000 * 162 + 162*2;
-                    ac.nowbeishu = 1.5;
+                    ac.lang = (nowAmount - 6000) / 3000 * 162 + 162 * 2;
+                    ac.nowbeishu = 1.6;
                 }
                 else if (nowAmount >= 3000 && nowAmount < 6000)
                 {
                     ac.yixiaofei = nowAmount;
                     ac.zaixiaofei = 6000 - nowAmount;
                     ac.beishu = 0.5;
-                    ac.lang = (nowAmount-3000) / 3000 * 162+162;
+                    ac.lang = (nowAmount - 3000) / 3000 * 162 + 162;
                     ac.nowbeishu = 1.3;
                 }
                 else
@@ -264,15 +277,19 @@ namespace ZL.Web.Controllers
                     ac.yixiaofei = nowAmount;
                     ac.zaixiaofei = 3000 - nowAmount;
                     ac.beishu = 0.3;
-                    ac.lang = nowAmount/ 3000 * 162;
+                    ac.lang = nowAmount / 3000 * 162;
                     ac.nowbeishu = 1;
                 }
-                return Ok(ac);
             }
             else
             {
-                return Ok(false);
+                ac.yixiaofei = 0;
+                ac.zaixiaofei = 0;
+                ac.beishu = 0;
+                ac.lang = 0;
+                ac.nowbeishu = 1;
             }
+            return ac;
         }
 
         /// <summary>
@@ -280,24 +297,15 @@ namespace ZL.Web.Controllers
         /// </summary>
         /// <param name="shopInfo"></param>
         /// <returns></returns>
-        [HttpPost]
-        public IHttpActionResult Rate([FromBody]Rote shopInfo)
+        private void Rate(Rote shopInfo)
         {
 
             // MD5Encrypt32('');
             ZLHttpRequet zlhttp = new ZLHttpRequet();
             shopInfo.sign = MD5Encrypt32(shopInfo.activityId + "|" + shopInfo.userId + "|" + shopInfo.openId + "|" + shopInfo.lastRate + "|kei3jw");
             string s = zlhttp.Post(ConfigurationManager.AppSettings["api"] + "/rcActivity/rate", JsonConvert.SerializeObject(shopInfo));
-            var info = JsonConvert.DeserializeObject<Root>(s);
-            if (info != null && info.data != null)
-            {
-                //float all = info.RechargeCashbackActivity.cashbackAggregateLimit;
-                return Ok(true);
-            }
-            else
-            {
-                return Ok(false);
-            }
+            Log l = new Log();
+            l.Info("同步倍率：" + s);
         }
 
         /// <summary>
@@ -305,27 +313,11 @@ namespace ZL.Web.Controllers
         /// </summary>
         /// <param name="wu"></param>
         /// <returns></returns>
-        [HttpPost]
-        public IHttpActionResult GetHelp([FromBody]WechatUInfo wu)
+        private List<string> GetHelp(string openid)
         {
-
-            // MD5Encrypt32('');
-            //ZLHttpRequet zlhttp = new ZLHttpRequet();
-            //shopInfo.sign = MD5Encrypt32(shopInfo.activityId + "|" + shopInfo.userId + "|" + shopInfo.openId + "|" + shopInfo.lastRate + "|kei3jw");
-            //string s = zlhttp.Post(ConfigurationManager.AppSettings["api"] + "/rcActivity/rate", JsonConvert.SerializeObject(shopInfo));
-            //var info = JsonConvert.DeserializeObject<Root>(s);
-            //if (info != null && info.data != null)
-            //{
-            //    //float all = info.RechargeCashbackActivity.cashbackAggregateLimit;
-            //    return Ok(true);
-            //}
-            //else
-            //{
-            //    return Ok(false);
-            //}
             SqlParameter[] paras = new SqlParameter[]
                 {
-                new SqlParameter("@Openid",wu.Openid), };
+                new SqlParameter("@Openid",openid), };
             string sql = @" select w.[AvatarUrl] from JM_Invitationinfo h left join[JM_WechatUserInfo] w on h.fopenid=w.Openid where h.openid=@Openid";
             DbHelperSQL db = new DbHelperSQL();
             var data = db.Query(sql, paras);
@@ -336,37 +328,232 @@ namespace ZL.Web.Controllers
                 {
                     listHead.Add(data.Tables[0].Rows[i][0] + "");
                 }
-                return Ok(listHead);
+            }
+            return listHead;
+        }
+
+        public static string MD5Encrypt32(string password)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(password);
+            bytes = md5.ComputeHash(bytes);
+            md5.Clear();
+            string ret = "";
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                ret += Convert.ToString(bytes[i], 16).PadLeft(2, '0');
+            }
+            return ret.PadLeft(32, '0');
+        }
+
+        /// <summary>
+        /// 查询用户信息
+        /// </summary>
+        /// <param name="wu"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IHttpActionResult GetUserInfoByOpenid([FromBody]WechatUInfo wu)
+        {
+            SqlParameter[] paras = new SqlParameter[]
+                {
+                new SqlParameter("@Openid",wu.Openid), };
+            string sql = @"   select [NickName],[AvatarUrl],ShopUserID from [JM_WechatUserInfo] w
+  left join [JM_ShopUserInfo] s on w.openid=s.openid  where w.Openid=@Openid";
+            DbHelperSQL db = new DbHelperSQL();
+            var data = db.Query(sql, paras);
+            if (data.Tables[0].Rows.Count > 0)
+            {
+                return Ok(new WechatUInfo()
+                {
+                    nickName = data.Tables[0].Rows[0][0] + "",//昵称
+                    avatarUrl = data.Tables[0].Rows[0][1] + "",//头像
+                    ShopUserID = data.Tables[0].Rows[0][2] + "",//商城ID
+                    Openid = wu.Openid,//Openid
+                    Host = ConfigurationManager.AppSettings["api"],//Host
+                });
             }
             else
             {
                 return Ok("");
             }
-
-
         }
 
-        public static string MD5Encrypt32(string password)
+        private WechatUInfo Getwu(string openid)
         {
-            string cl = password;
-            string pwd = "";
-            MD5 md5 = MD5.Create(); //实例化一个md5对像
-                                    // 加密后是一个字节类型的数组，这里要注意编码UTF8/Unicode等的选择　
-            byte[] s = md5.ComputeHash(Encoding.UTF8.GetBytes(cl));
-            // 通过使用循环，将字节类型的数组转换为字符串，此字符串是常规字符格式化所得
-            for (int i = 0; i < s.Length; i++)
+            SqlParameter[] paras = new SqlParameter[]
+               {
+                new SqlParameter("@Openid",openid), };
+            string sql = @"   SELECT NickName,AvatarUrl  FROM [JM_WechatUserInfo] where openid=@Openid";
+            DbHelperSQL db = new DbHelperSQL();
+            var data = db.Query(sql, paras);
+            WechatUInfo wu = new WechatUInfo();
+            if (data.Tables[0].Rows.Count > 0)
             {
-                // 将得到的字符串使用十六进制类型格式。格式后的字符是小写的字母，如果使用大写（X）则格式后的字符是大写字符 
-                pwd = pwd + s[i].ToString("X");
+                wu.nickName = data.Tables[0].Rows[0][0] + "";//昵称
+                wu.avatarUrl = data.Tables[0].Rows[0][1] + "";//头像
             }
-            return pwd.ToLower();
+            return wu;
         }
-        
+
+
+        /// <summary>
+        /// 查询返现信息
+        /// </summary>
+        /// <param name="wu"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IHttpActionResult GetReappearance([FromBody]WechatUInfo wu)
+        {
+            //查询用户在商城的ID
+            SqlParameter[] paras = new SqlParameter[]
+                {
+                new SqlParameter("@Openid",wu.Openid), };
+            string sql = @"select COUNT(1) from JM_InvitationInfo  where Openid=(select Openid from JM_ShopUserInfo where ShopUserID='94061')";
+            DbHelperSQL db = new DbHelperSQL();
+            var data = db.GetSingle(sql, paras);
+            Reappearance ra = new Reappearance();
+            if (data != null)
+            {
+                //获取商城用户消费金额
+                ra.account = Getamount(data.ToString());
+                //获取剩余总金额
+                ra.remaining = GetTotalRecharge();
+                //获取好友助力列表
+                ra.friends = GetHelp(wu.Openid);
+                //获取微信信息
+                ra.wr = Getwu(wu.Openid);
+                double bs = ra.account.beishu + Js(ra.friends.Count) + 1;
+                //同步倍率
+                Rate(new Rote()
+                {
+                    activityId = '7',
+                    openId = wu.Openid,
+                    userId = data.ToString(),
+                    lastRate = bs
+                });
+            }
+            else
+            {
+                return Ok(false);
+            }
+            return Ok(ra);
+        }
+
+        private double Js(int length)
+        {
+            if (length >= 20)
+            {
+                return 0.5;
+            }
+            else if (length >= 15)
+            {
+                return 0.2;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+
+
+        /// <summary>
+        /// 查询特惠单品
+        /// </summary>
+        /// <param name="wu"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IHttpActionResult GetGoods()
+        {
+            //查询特惠单品
+            string sql = "select * from jm_goods where goodstype=1";
+            DbHelperSQL db = new DbHelperSQL();
+            var data = db.Query(sql);
+            List<Goods> goods = new List<Goods>();
+            if (data.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < data.Tables[0].Rows.Count; i++)
+                {
+                    goods.Add(new Goods()
+                    {
+                        GoodsName = data.Tables[0].Rows[i]["GoodsName"] + "",
+                        GoodsPrice = data.Tables[0].Rows[i]["GoodsPrice"] + "",
+                        GoodsFree = data.Tables[0].Rows[i]["GoodsFree"] + "",
+                        GoodsImg = data.Tables[0].Rows[i]["GoodsImg"] + "",
+                        GoodsColumn = data.Tables[0].Rows[i]["GoodsColumn"] + "",
+                    });
+                }
+            }
+
+            //查询爆款
+            string sql1 = "select * from jm_goods where goodstype=2";
+            var data1 = db.Query(sql1);
+            List<Goods> goods1 = new List<Goods>();
+            if (data1.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < data1.Tables[0].Rows.Count; i++)
+                {
+                    goods1.Add(new Goods()
+                    {
+                        GoodsName = data1.Tables[0].Rows[i]["GoodsName"] + "",
+                        GoodsPrice = data1.Tables[0].Rows[i]["GoodsPrice"] + "",
+                        GoodsFree = data1.Tables[0].Rows[i]["GoodsFree"] + "",
+                        GoodsImg = data1.Tables[0].Rows[i]["GoodsImg"] + "",
+                        GoodsColumn = data1.Tables[0].Rows[i]["GoodsColumn"] + "",
+                    });
+                }
+            }
+
+
+
+            return Ok(new GoodsAll() {
+                danpin=goods,
+                baokuan=goods1
+            });
+        }
+
+        /// <summary>
+        /// 查询特惠单品
+        /// </summary>
+        /// <param name="wu"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IHttpActionResult GetGoodsTj()
+        {
+            //查询必买
+            string sql = "select * from jm_goods where goodstype=3";
+            DbHelperSQL db = new DbHelperSQL();
+            var data = db.Query(sql);
+            List<Goods> goods = new List<Goods>();
+            if (data.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < data.Tables[0].Rows.Count; i++)
+                {
+                    goods.Add(new Goods()
+                    {
+                        GoodsName = data.Tables[0].Rows[i]["GoodsName"] + "",
+                        GoodsPrice = data.Tables[0].Rows[i]["GoodsPrice"] + "",
+                        GoodsFree = data.Tables[0].Rows[i]["GoodsFree"] + "",
+                        GoodsImg = data.Tables[0].Rows[i]["GoodsImg"] + "",
+                        GoodsColumn = data.Tables[0].Rows[i]["GoodsColumn"] + "",
+                    });
+                }
+            }
+            return Ok(goods);
+        }
+
+
     }
+
     public class User
     {
         public string name { get; set; }
         public string age { get; set; }
+    }
+    public class GoodsAll
+    {
+        public List<Goods>  danpin { get; set; }
+        public List<Goods>  baokuan { get; set; }
     }
     /// <summary>
     /// 微信中的用户信息和sessionkey
@@ -375,8 +562,8 @@ namespace ZL.Web.Controllers
     {
         public string Openid { get; set; }
         public string SessionKey { get; set; }
-        public string NickName { get; set; }
-        public string AvatarUrl { get; set; }
+        public string nickName { get; set; }
+        public string avatarUrl { get; set; }
         public string Gender { get; set; }
         public string Language { get; set; }
         public string Country { get; set; }
@@ -384,6 +571,8 @@ namespace ZL.Web.Controllers
         public string City { get; set; }
         public string CreateTime { get; set; }
         public string UpdateTime { get; set; }
+        public string ShopUserID { get; set; }
+        public string Host { get; set; }
     }
     /// <summary>
     /// 商城用户信息
@@ -398,6 +587,9 @@ namespace ZL.Web.Controllers
         public string FormID { get; set; }
         public string ValidateType { get; set; }
         public string Openid { get; set; }
+        public string FOpenid { get; set; }
+        public string registSource { get; set; }
+        
 
     }
     public class ShopLoginUserInfo
@@ -713,7 +905,24 @@ namespace ZL.Web.Controllers
         public string sign { get; set; }
     }
 
+    /// <summary>
+    /// 商城返现信息
+    /// </summary>
+    public class Reappearance
+    {
+        /// <summary>
+        /// 返现信息
+        /// </summary>
+        public Account account { get; set; }
 
+        public float remaining { get; set; }
+
+        public List<string> friends { get; set; }
+        public WechatUInfo wr { get; set; }
+    }
+    /// <summary>
+    /// 返现信息
+    /// </summary>
     public class Account
     {
         /// <summary>
@@ -730,5 +939,17 @@ namespace ZL.Web.Controllers
         public Double beishu { get; set; }
         public Double lang { get; set; }
         public Double nowbeishu { get; set; }
+    }
+
+    /// <summary>
+    /// 商品信息
+    /// </summary>
+    public class Goods
+    {
+        public string GoodsName { get; set; }
+        public string GoodsPrice { get; set; }
+        public string GoodsFree { get; set; }
+        public string GoodsImg { get; set; }
+        public string GoodsColumn { get; set; }
     }
 }
